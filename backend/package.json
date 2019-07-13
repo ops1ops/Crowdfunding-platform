@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Crowdfunding-platform backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node servers.js",
+    "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "author": "Ilya",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
