@@ -14,7 +14,7 @@ db.authenticate()
         console.error('Unable to connect to the database:', err);
     });
 
-const Company = require('../models/company')(db, Sequelize);
+const Company = require('../models/Company')(db, Sequelize);
 
 Company.create({
     genre_id: 1,
