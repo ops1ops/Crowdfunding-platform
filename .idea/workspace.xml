@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c5b6d28-2bfe-47af-bdaa-2d1b4de372d3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/controllers/company.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/controllers/company.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/db/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db/db.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/models/company.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/models/Company.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,11 +24,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/db/db.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
               <caret line="7" selection-start-line="7" selection-end-line="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/src/App.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="104">
+              <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -107,7 +112,6 @@
         <option value="D:/React/index.html" />
         <option value="D:/JavaScript Algorithms/reverseInteger.js" />
         <option value="$PROJECT_DIR$/frontend/package.json" />
-        <option value="$PROJECT_DIR$/frontend/src/App.js" />
         <option value="$PROJECT_DIR$/backend/.gitignore" />
         <option value="$PROJECT_DIR$/backend/db/connection.js" />
         <option value="$PROJECT_DIR$/backend/config/db.js" />
@@ -118,6 +122,7 @@
         <option value="$PROJECT_DIR$/backend/models/company.js" />
         <option value="$PROJECT_DIR$/backend/controllers/company.js" />
         <option value="$PROJECT_DIR$/backend/db/db.js" />
+        <option value="$PROJECT_DIR$/frontend/src/App.js" />
       </list>
     </option>
   </component>
@@ -145,6 +150,12 @@
               <item name="Crowdfunding-platform" type="b2602c69:ProjectViewProjectNode" />
               <item name="Crowdfunding-platform" type="462c0819:PsiDirectoryNode" />
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Crowdfunding-platform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Crowdfunding-platform" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -207,12 +218,12 @@
       <workItem from="1562746048334" duration="184000" />
       <workItem from="1562829306633" duration="6695000" />
       <workItem from="1562942957240" duration="15132000" />
-      <workItem from="1563103149381" duration="523000" />
+      <workItem from="1563103149381" duration="757000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47936000" />
+    <option name="totallyTimeSpent" value="48170000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -229,7 +240,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.5977654" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.5121043" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.37802607" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -355,20 +366,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/db/db.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
         </state>
       </provider>
     </entry>
