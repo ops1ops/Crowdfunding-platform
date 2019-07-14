@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-    return db.define('company', {
+    return db.define('Company', {
         genre_id: {
             type: DataTypes.STRING,
             allowNull: false
@@ -23,6 +23,5 @@ module.exports = (db, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false
         }
-
     });
 };

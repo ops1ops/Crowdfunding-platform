@@ -1,14 +1,8 @@
-const express = require('express');
-const db = require('./db/db');
+const app = require('./routes/index');
+const { PORT }  = require('./config/config');
 
-const app = express();
+app.set('json spaces', 5); //normal json view
 
+app.listen(PORT, () => console.log(`Server started on ${PORT}`));
 
-
-app.get('/', (req, res) => {
-
-});
-
-const port = 8080;
-
-app.listen(port, () => console.log(`Server started on ${port}`));
+module.exports = app;
