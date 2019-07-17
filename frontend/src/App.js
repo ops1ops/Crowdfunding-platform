@@ -1,26 +1,27 @@
 import React from 'react';
-import {Layout, Menu, Breadcrumb} from "antd";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import 'antd/dist/antd.css';
+import {BrowserRouter} from "react-router-dom";
+// import 'antd/dist/antd.css';
+
 import './App.css';
-import Home from './components/pages/Home';
-
-const {Header, Content, Footer} = Layout;
-
+import Navbar from "./components/layout/Navigationbar/Navigationbar";
+import {Redirect, Route, Switch} from "react-router";
+import NotFound from "./components/layout/NotFound";
+import Login from "./components/auth/Login";
+import Companies from "./components/company/Companies";
+import CreateCompanyPage from "./components/company/CreateCompanyPage";
 
 function App() {
     return (
-        <Layout className="layout">
-            <Header>
-                header
-            </Header>
-            <Content>
-                <Router>
-                    <Route path="/homepage" component={Home}/>
-                </Router>
-            </Content>
-            <Footer>Ant Design ©2018 Created by Ant UED</Footer>
-        </Layout>
+        <BrowserRouter>
+            <Navbar/>
+            <Switch>
+                <Route exact path='/home' />
+                <Route exact path='/companies' component={Companies} />
+                <Route exact path='/companies/create' component={CreateCompanyPage} />
+                <Route path='/404' component={NotFound} />
+                <Redirect from='*' to='/404' />
+            </Switch>
+        </BrowserRouter>
     )
 }
 
