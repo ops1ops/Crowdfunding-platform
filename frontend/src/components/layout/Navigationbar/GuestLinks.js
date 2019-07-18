@@ -2,9 +2,9 @@ import React from 'react';
 import {Nav, NavItem} from "react-bootstrap";
 import {Link, NavLink} from "react-router-dom";
 
-const GuestLinks = (props) => {
+const GuestLinks = () => {
     return (
-        <Link to='/signin'>Sign In</Link>
+        <Link to='/login'>Sign In</Link>
     )
 }
 

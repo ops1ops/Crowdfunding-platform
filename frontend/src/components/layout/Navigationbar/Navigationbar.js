@@ -31,17 +31,18 @@ const Navigationbar = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <NavItem eventkey={1} href="/home">
-                        <Nav.Link as={Link} to="/home" >Home</Nav.Link>
+                    <NavItem eventkey={1} href="/">
+                        <Nav.Link as={Link} to="/" >Home</Nav.Link>
                     </NavItem>
                     <NavItem eventkey={2} href="/companies">
                         <Nav.Link as={Link} to="/companies" >Companies</Nav.Link>
                     </NavItem>
                 </Nav>
+                <Search/>
+                <GuestLinks/>
+                <UserLinks/>
             </Navbar.Collapse>
-            <Search/>
-            <GuestLinks/>
-            <UserLinks/>
+
         </Navbar>
     );
 }

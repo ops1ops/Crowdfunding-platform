@@ -3,19 +3,20 @@ import {BrowserRouter} from "react-router-dom";
 // import 'antd/dist/antd.css';
 
 import './App.css';
-import Navbar from "./components/layout/Navigationbar/Navigationbar";
 import {Redirect, Route, Switch} from "react-router";
+import Navbar from "./components/layout/Navigationbar/Navigationbar";
 import NotFound from "./components/layout/NotFound";
-import Login from "./components/auth/Login";
-import Companies from "./components/company/Companies";
-import CreateCompanyPage from "./components/company/CreateCompanyPage";
+import LoginPage from "./components/auth/LoginPage";
+import Companies from "./components/companies/Companies";
+import CreateCompanyPage from "./components/companies/CreateCompanyPage";
 
 function App() {
     return (
         <BrowserRouter>
             <Navbar/>
             <Switch>
-                <Route exact path='/home' />
+                <Route exact path='/login' component={LoginPage}/>
+                <Route exact path='/' />
                 <Route exact path='/companies' component={Companies} />
                 <Route exact path='/companies/create' component={CreateCompanyPage} />
                 <Route path='/404' component={NotFound} />
