@@ -2,8 +2,8 @@ import {
     USER_LOGIN,
     USER_LOGIN_FAILURE,
     USER_LOGIN_SUCCESS,
-} from '../constants';
-import api from '../api';
+} from './constants';
+import api from '../../../services/api';
 
 const userLoginSuccess = user => ({
     type: USER_LOGIN_SUCCESS,
