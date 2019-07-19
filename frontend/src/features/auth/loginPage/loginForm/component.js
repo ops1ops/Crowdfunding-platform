@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import _ from 'lodash';
 import { PropTypes } from 'prop-types';
+import { Alert } from 'antd';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -12,6 +13,8 @@ class LoginForm extends React.Component {
                 password: '',
             },
             errors: {},
+            promiseErrors: {},
+            isLoading: false,
         };
     }
 
@@ -49,60 +52,83 @@ class LoginForm extends React.Component {
         this.setState({ errors });
     };
 
+    onAlertClose = () => {
+        this.setState({ promiseErrors: {} });
+    };
+
     onSubmit = e => {
         e.preventDefault();
         const { errors, data } = this.state;
-        const { props } = this;
-        if (_.isEmpty(errors)) {
-            props.submit(data);
+        this.validateForm();
+        if (_.isEmpty(errors) && data.email && data.password) {
+            this.setState({ isLoading: true });
+            this.props.submit(data).catch(err =>
+                this.setState({
+                    promiseErrors: {
+                        validation: err.response.data.errors,
+                        connection: err.message,
+                    },
+                    isLoading: false,
+                })
+            );
         }
     };
 
     render() {
-        const { data, errors } = this.state;
+        const { data, errors, isLoading, promiseErrors } = this.state;
 
         return (
-            <div className="container d-flex flex-column align-items-center">
-                <h2 className="m-4">Login page</h2>
-                <Form className="w-50" onSubmit={this.onSubmit}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control
-                            name="email"
-                            placeholder="Enter email"
-                            value={data.email}
-                            onChange={this.handleFormInput}
-                            isInvalid={!!errors.email}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.email}
-                        </Form.Control.Feedback>
-                    </Form.Group>
+            <Form className="w-50" onSubmit={this.onSubmit}>
+                {!_.isEmpty(promiseErrors) && (
+                    <Alert
+                        className="mb-3"
+                        message="Error"
+                        closable
+                        onClose={this.onAlertClose}
+                        type="error"
+                        description={
+                            promiseErrors.validation ||
+                            'Our server is offline. Please try again later'
+                        }
+                    />
+                )}
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control
+                        name="email"
+                        placeholder="Enter email"
+                        value={data.email}
+                        onChange={this.handleFormInput}
+                        isInvalid={!!errors.email}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        {errors.email}
+                    </Form.Control.Feedback>
+                </Form.Group>
 
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            name="password"
-                            onChange={this.handleFormInput}
-                            isInvalid={!!errors.password}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.password}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Form>
-            </div>
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        onChange={this.handleFormInput}
+                        isInvalid={!!errors.password}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        {errors.password}
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Button variant="primary" type="submit" disabled={isLoading}>
+                    {isLoading ? 'Loading' : 'Submit'}
+                </Button>
+            </Form>
         );
     }
 }
 
 LoginForm.propTypes = {
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

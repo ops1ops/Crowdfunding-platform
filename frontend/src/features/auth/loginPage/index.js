@@ -4,15 +4,17 @@ import { userLogin } from './actions';
 
 export { loginPageReducer } from './reducer';
 
-const mapStateToProps = store => {
-    return {
-        user: store.user,
-    };
-};
+const mapStateToProps = store => ({
+    isLoading: store.user.isLoading,
+    isAuthorized: store.user.isAuthorized,
+    errors: store.user.errors,
+});
 
-// const mapDispatchToProps = () => ();
+const mapDispatchToProps = () => ({
+    login: userLogin,
+});
 
 export default connect(
-    null,
+    mapStateToProps,
     { login: userLogin }
 )(LoginPage);
