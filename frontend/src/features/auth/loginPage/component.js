@@ -3,7 +3,6 @@ import { PropTypes } from 'prop-types';
 import LoginForm from './loginForm/component';
 import 'antd/dist/antd.css';
 
-
 class LoginPage extends Component {
     submit = data =>
         this.props.login(data).then(() => this.props.history.push('/'));

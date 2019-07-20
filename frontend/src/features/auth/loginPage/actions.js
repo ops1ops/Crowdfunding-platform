@@ -1,6 +1,4 @@
-import {
-    USER_LOGIN_SUCCESS,
-} from './constants';
+import { USER_LOGIN_SUCCESS } from './constants';
 import api from '../../../services/api';
 
 export const userLoginSuccess = user => ({

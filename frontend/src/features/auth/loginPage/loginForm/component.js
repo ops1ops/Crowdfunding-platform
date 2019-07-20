@@ -82,14 +82,13 @@ class LoginForm extends React.Component {
                 {!_.isEmpty(promiseErrors) && (
                     <Alert
                         className="mb-3"
-                        message="Error"
-                        closable
+                        message="Submitting error"
                         onClose={this.onAlertClose}
                         type="error"
                         description={
-                            promiseErrors.validation ||
-                            'Our server is offline. Please try again later'
+                            promiseErrors.validation || 'Please try again later'
                         }
+                        closable
                     />
                 )}
                 <Form.Group controlId="formBasicEmail">
