@@ -5,6 +5,14 @@ import { Provider } from 'react-redux';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { store } from './store/store';
+import { userLoginSuccess } from './features/auth/loginPage/actions';
+
+
+// refactor
+if (localStorage.userJWT) {
+    const user = { token: localStorage.userJWT };
+    store.dispatch(userLoginSuccess(user));
+}
 
 ReactDOM.render(
     <Provider store={store}>

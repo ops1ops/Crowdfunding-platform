@@ -30,7 +30,7 @@ exports.login = (req, res) => {
         })
         .catch(err => {
             console.log("log: ", err);
-            res.status(500).send({ errors: err.message })
+            res.status(500).send(err.message)
         });
 
 

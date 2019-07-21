@@ -118,7 +118,12 @@ class LoginForm extends React.Component {
                         {errors.password}
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit" disabled={isLoading}>
+                <Button
+                    className="w-100"
+                    variant="primary"
+                    type="submit"
+                    disabled={isLoading}
+                >
                     {isLoading ? 'Loading' : 'Submit'}
                 </Button>
             </Form>
