@@ -23,6 +23,10 @@ module.exports = (db, DataTypes) => {
             },
             allowNull: false
         },
+        blocked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        }
     }, {
 
     });

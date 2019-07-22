@@ -15,6 +15,9 @@ exports.login = (req, res) => {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(credentials.password, user.password);
                 if (isValidPassword) {
+                    if (user.blocked) {
+                        return res.status(403).json({ errors: 'Your account has been blocked'})
+                    }
                     const token = jwt.sign({ email: credentials.email }, jwtKey, { expiresIn: 43200});
                     return res.json({
                         token,
@@ -22,11 +25,9 @@ exports.login = (req, res) => {
                         isAuthorized: true
                     });
                 }
-
-                return res.status(401).send({ errors: 'Check for correct your email and password'});
             }
 
-            return res.status(404).send({ errors: 'User with this email and password does not exist' });
+            return res.status(400).send({ errors: 'Invalid email and password' });
         })
         .catch(err => {
             console.log("log: ", err);
