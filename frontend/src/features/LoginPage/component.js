@@ -10,7 +10,7 @@ class LoginPage extends Component {
     render() {
         return (
             <div className="container d-flex flex-column align-items-center">
-                <h2 className="m-4">Login page</h2>
+                <h2 className="m-4">Login</h2>
                 <LoginForm submit={this.submit} />
             </div>
         );
