@@ -5,7 +5,7 @@ const GuestLinks = () => {
     return (
         <React.Fragment>
             <Link to="/login">Log in</Link>
-            <Link to="/register" className="ml-2">Register</Link>
+            <Link to="/signup" className="ml-2">Sign up</Link>
         </React.Fragment>
     );
 };

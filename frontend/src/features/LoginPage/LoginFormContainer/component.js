@@ -3,9 +3,9 @@ import { PropTypes } from 'prop-types';
 import * as yup from 'yup';
 import { Alert } from 'antd';
 import { Formik } from 'formik';
-import {MainForm} from "./MainForm";
+import { LoginForm } from './LoginForm/component';
 
-class LoginForm extends React.Component {
+class LoginFormContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,13 +21,12 @@ class LoginForm extends React.Component {
         this.props.submit(values).catch(err => {
             this.setState({
                 serverErrors: {
-                    validation: err.response.data.errors,
                     message: err.message,
+                    validation: err.response.data.errors,
                 },
             });
             actions.setSubmitting(false);
-        }
-        );
+        });
     };
 
     render() {
@@ -45,16 +44,14 @@ class LoginForm extends React.Component {
         });
 
         return (
-            <div>
+            <div className="w-50">
                 {serverErrors.message && (
                     <Alert
-                        className="mb-3 w-50"
+                        className="mb-3"
                         message="Submitting error"
                         onClose={this.onAlertClose}
                         type="error"
-                        description={
-                            serverErrors.validation || 'Please try again later'
-                        }
+                        description={serverErrors.validation || 'Please try again later'}
                         closable
                     />
                 )}
@@ -66,16 +63,15 @@ class LoginForm extends React.Component {
                         email: '',
                         password: '',
                     }}
-                    render={MainForm}
+                    render={LoginForm}
                 />
             </div>
-
         );
     }
 }
 
-LoginForm.propTypes = {
+LoginFormContainer.propTypes = {
     submit: PropTypes.func.isRequired,
 };
 
-export default LoginForm;
+export default LoginFormContainer;

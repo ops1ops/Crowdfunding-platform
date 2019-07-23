@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import LoginForm from './loginForm/component';
 import 'antd/dist/antd.css';
+import LoginFormContainer from "./LoginFormContainer/component";
 
 class LoginPage extends Component {
     submit = data =>
@@ -10,8 +10,8 @@ class LoginPage extends Component {
     render() {
         return (
             <div className="container d-flex flex-column align-items-center">
-                <h2 className="m-4">Login</h2>
-                <LoginForm submit={this.submit} />
+                <h2 className="m-4">Log in</h2>
+                <LoginFormContainer submit={this.submit} />
             </div>
         );
     }

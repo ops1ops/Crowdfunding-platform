@@ -1,23 +1,12 @@
 import React from 'react';
 import { Navbar, NavItem, Nav } from 'react-bootstrap';
-import { makeStyles } from '@material-ui/core/styles';
 import GuestLinks from './GuestLinks/GuestLinks';
 import { Link } from 'react-router-dom';
 import { UserLinks } from './UserLinks/UserLinks';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
-import { userLogout } from '../../auth/loginPage/actions';
+import { userLogout } from '../../LoginPage/actions';
 
-const useStyles = makeStyles({
-    avatar: {
-        margin: 10,
-    },
-    bigAvatar: {
-        margin: 10,
-        width: 30,
-        height: 30,
-    },
-});
 
 const NavigationBar = props => {
     const { isAuthorized, logout } = props;
