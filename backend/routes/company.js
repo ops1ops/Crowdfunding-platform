@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const controller = require('../controllers/company');
+const controller = require('../controllers/campaign');
 
 
-router.get('/companies', controller.getAllCompanies);
-router.post('/companies/create', controller.createCompany);
-router.delete('/companies/delete', controller.deleteCompany);
+router.get('/campaigns', controller.getAllCompanies);
+router.post('/campaign', controller.createCompany);
+router.delete('/campaign', controller.deleteCompany);
 
 module.exports = router;

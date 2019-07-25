@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const db = require('../db/index');
-const Company = require('../db/models/Company')(db, Sequelize);
+const Campaign = require('../db/models/Campaign')(db, Sequelize);
 
 exports.createCompany = (req, res) => {
-    Company
+
+    Campaign
         .create({
             genre_id: 1,
             name: 'test1' + Math.random(),
@@ -24,14 +25,14 @@ exports.createCompany = (req, res) => {
 };
 
 exports.getAllCompanies = (req, res) => {
-    Company
+    Campaign
         .findAll()
         .then(companies => res.json(companies))
         .catch(err => res.json(err));
 };
 
 exports.deleteCompany = (req, res) => {
-    Company
+    Campaign
         .destroy({
             where: {
                 name: {

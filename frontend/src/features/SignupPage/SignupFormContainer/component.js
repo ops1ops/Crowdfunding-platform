@@ -1,36 +1,50 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
 import { Alert } from 'antd';
 import { Formik } from 'formik';
 import { SignupForm } from './SignupForm/component';
-import {signupSchema} from "./signupSchema";
+import { validationSchema } from './validationSchema';
+import api from '../../../services/api';
 
 class SignupFormContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             serverErrors: {},
+            serverSuccessMessage: '',
         };
+        this.onCloseSuccessAlert = this.onCloseAlert.bind(this, { serverSuccessMessage: '' });
+        this.onCloseErrorAlert = this.onCloseAlert.bind(this, { serverErrors: {} });
+
     }
 
-    onAlertClose = () => {
-        this.setState({ serverErrors: {} });
+    onCloseAlert = alertState => {
+        this.setState(alertState);
     };
 
     onSubmit = (values, actions) => {
-        this.props.submit(values).catch(err => {
-            this.setState({
-                serverErrors: {
-                    message: err.message,
-                    validation: err.response.data.errors,
-                },
+        api.user
+            .signup(values)
+            .then(res => {
+                this.setState({
+                    serverSuccessMessage: res.data.message,
+                    serverErrors: {},
+                });
+                actions.setSubmitting(false);
+            })
+            .catch(err => {
+                this.setState({
+                    serverErrors: {
+                        message: err.message,
+                        validation: err.response.data.errors,
+                    },
+                    serverSuccessMessage: '',
+                });
+                actions.setSubmitting(false);
             });
-            actions.setSubmitting(false);
-        });
     };
 
     render() {
-        const { serverErrors } = this.state;
+        const { serverErrors, serverSuccessMessage } = this.state;
 
         return (
             <div className="w-50">
@@ -38,19 +52,32 @@ class SignupFormContainer extends React.Component {
                     <Alert
                         className="mb-3"
                         message="Submitting error"
-                        onClose={this.onAlertClose}
+                        onClose={this.onCloseErrorAlert}
                         type="error"
                         description={serverErrors.validation || 'Please try again later'}
                         closable
                     />
                 )}
+                {serverSuccessMessage && (
+                    <Alert
+                        className="mb-3"
+                        message="Submitting error"
+                        onClose={this.onCloseSuccessAlert}
+                        type="success"
+                        description={serverSuccessMessage}
+                        closable
+                    />
+                )}
                 <Formik
-                    validationSchema={signupSchema}
+                    validationSchema={validationSchema}
                     validateOnChange
                     onSubmit={this.onSubmit}
                     initialValues={{
+                        firstName: '',
+                        lastName: '',
                         email: '',
                         password: '',
+                        repeatPassword: '',
                     }}
                     render={SignupForm}
                 />
@@ -58,9 +85,5 @@ class SignupFormContainer extends React.Component {
         );
     }
 }
-
-SignupFormContainer.propTypes = {
-    submit: PropTypes.func.isRequired,
-};
 
 export default SignupFormContainer;

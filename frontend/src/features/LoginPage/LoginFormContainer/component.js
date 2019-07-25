@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import * as yup from 'yup';
 import { Alert } from 'antd';
 import { Formik } from 'formik';
 import { LoginForm } from './LoginForm/component';
+import { validationSchema } from './validationSchema';
 
 class LoginFormContainer extends React.Component {
     constructor(props) {
@@ -32,17 +32,6 @@ class LoginFormContainer extends React.Component {
     render() {
         const { serverErrors } = this.state;
 
-        const schema = yup.object({
-            email: yup
-                .string()
-                .email('Invalid email')
-                .required('Email is required field'),
-            password: yup
-                .string()
-                .min(5, 'Password is too short')
-                .required('Password is required field'),
-        });
-
         return (
             <div className="w-50">
                 {serverErrors.message && (
@@ -56,7 +45,7 @@ class LoginFormContainer extends React.Component {
                     />
                 )}
                 <Formik
-                    validationSchema={schema}
+                    validationSchema={validationSchema}
                     validateOnChange
                     onSubmit={this.onSubmit}
                     initialValues={{

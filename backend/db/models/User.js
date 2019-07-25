@@ -1,5 +1,13 @@
 module.exports = (db, DataTypes) => {
     const User = db.define('User', {
+        firstName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        lastName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         email: {
             type: DataTypes.STRING,
             validate: {
@@ -23,9 +31,13 @@ module.exports = (db, DataTypes) => {
             },
             allowNull: false
         },
+        confirmed: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true
+        },
         blocked: {
             type: DataTypes.BOOLEAN,
-            allowNull: false
+            allowNull: true
         }
     }, {
 

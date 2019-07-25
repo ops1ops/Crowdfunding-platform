@@ -1,6 +1,6 @@
 module.exports = (db, DataTypes) => {
-    return db.define('Company', {
-        genre_id: {
+    return db.define('Campaign', {
+        genreId: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -15,11 +15,11 @@ module.exports = (db, DataTypes) => {
         youtube: {
             type: DataTypes.STRING
         },
-        goal_price: {
+        goalPrice: {
             type: DataTypes.DECIMAL,
             allowNull: false
         },
-        expiry_date: {
+        expiryDate: {
             type: DataTypes.DATE,
             allowNull: false
         }

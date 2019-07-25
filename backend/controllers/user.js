@@ -1,9 +1,12 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { jwtKey } = require('../config/keys');
+const crypto = require('crypto');
+const { jwtKey, confirmSecret } = require('../config/keys');
 const db = require('../db/index');
 const User = require('../db/models/User')(db, Sequelize);
+const sendConfirmationEmail = require('../mailer/index');
+const UserConfirm = require('../db/models/UserConfirm')(db, Sequelize);
 
 exports.login = (req, res) => {
     const { credentials } = req.body;
@@ -15,43 +18,75 @@ exports.login = (req, res) => {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(credentials.password, user.password);
                 if (isValidPassword) {
+                    if (!user.confirmed) {
+                        return res.status(400).json({ errors: 'Please confirm your email'})
+                    }
                     if (user.blocked) {
                         return res.status(403).json({ errors: 'Your account has been blocked'})
                     }
-                    const token = jwt.sign({ email: credentials.email }, jwtKey, { expiresIn: 43200});
+                    const token = jwt.sign({ email: user.email }, jwtKey, { expiresIn: 43200});
                     return res.json({
                         token,
-                        email: credentials.email,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
                         isAuthorized: true
                     });
                 }
             }
 
-            return res.status(400).send({ errors: 'Invalid email and password' });
+            return res.status(400).send({ errors: 'Invalid email or password' });
         })
         .catch(err => {
-            console.log("log: ", err);
-            res.status(500).send(err.message)
+            console.log("[LOG] Error in auth user: ", err.errors.message);
+            return res.status(500).send(err.errors.message);
         });
+};
 
+exports.signup = (req, res) => {
+    const { firstName, lastName, email, password, repeatPassword } = req.body.userData;
+    const isValidPassword = (password && repeatPassword && (password === repeatPassword));
 
-
-
-    // User
-    //     .create({
-    //         email: 'qw@mail.ru',
-    //         password: bcrypt.hashSync('12345', 10)
-    //     })
-    //     .then(company => {
-    //         res.send('User created successfully');
-    //         console.log("Created companies with id: ", company.id)
-    //     })
-    //     .catch(err => {
-    //         res.status(404).send(err.message);
-    //         console.log("Error creating in companies: ", err.message)
-    //     });
-
-
-
+    if (firstName && lastName && email && isValidPassword) {
+        User
+            .create({
+                firstName,
+                lastName,
+                email,
+                password: bcrypt.hashSync(password, 10)
+            })
+            .then(user => {
+                const token = crypto
+                                .createHmac('sha256', confirmSecret)
+                                .update(`${user.id}`)
+                                .digest('hex');
+                const currentDate = new Date();
+                currentDate.setDate(currentDate.getDate() + 1);
+                console.log(currentDate);
+                UserConfirm
+                    .create({
+                        token,
+                        userId: user.id,
+                        endsAt: currentDate
+                    })
+                    .then(confirm => {
+                        sendConfirmationEmail(user.email, confirm.token).catch(console.error);
+                        return res.send({ message: 'Registered successfully. Confirm email to continue'});
+                    })
+                    .catch(err => {
+                       return res.status(400).send(err);
+                    });
+            })
+            .catch(err => {
+                console.log(err);
+                if (err.errors[0] && (err.errors[0].message === 'email_unique must be unique')) {
+                    return res.status(400).send({ errors: 'Email is already taken' });
+                }
+                console.log("[LOG] Error creating in users: ", err);
+                return res.status(500).send(err.errors.message);
+            });
+    } else {
+        return res.status(400).send({ errors: 'Invalid data passed'})
+    }
 };
 

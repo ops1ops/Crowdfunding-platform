@@ -15,7 +15,6 @@ export const LoginForm = ({
         <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
-                autoFocus
                 name="email"
                 placeholder="Enter email"
                 value={values.email}
