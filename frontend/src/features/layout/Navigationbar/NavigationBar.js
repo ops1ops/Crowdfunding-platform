@@ -24,7 +24,7 @@ const NavigationBar = props => {
                     </NavItem>
                     <NavItem eventkey={2} href="/companies">
                         <Nav.Link as={Link} to="/companies">
-                            Companies
+                            Campaigns
                         </Nav.Link>
                     </NavItem>
                 </Nav>
