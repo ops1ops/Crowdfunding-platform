@@ -1,8 +1,8 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import LoginPage from '../features/LoginPage';
-import Companies from '../features/CreateCompanyPage/Companies';
-import CreateCampaignPage from '../features/CreateCompanyPage/CreateCampaignPage';
+import Companies from '../features/Home/Companies';
+import Component from '../features/CreateCompanyPage/component';
 import NotFound from '../features/layout/NotFound';
 import PrivateRoute from './PrivateRoute/component';
 import GuestRoute from './GuestRoute/component';
@@ -17,7 +17,7 @@ const Router = () => {
             <GuestRoute exact path="/signup" component={SignupPage} />
             <Route exact path="/" component={Home} />
             <Route exact path="/companies" component={Companies} />
-            <PrivateRoute exact path="/campaigns/create" component={CreateCampaignPage} />
+            <PrivateRoute exact path="/campaigns/create" component={Component} />
             <Route exact path="/error/:message" component={ErrorPage} />
             <Route path="/404" component={NotFound} />
             <Redirect from="*" to="/404" />

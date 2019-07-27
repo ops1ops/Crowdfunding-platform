@@ -11,6 +11,7 @@ import { userLoginSuccess } from './features/LoginPage/actions';
 // refactor
 if (localStorage.userJWT) {
     const user = { token: localStorage.userJWT };
+    console.log(user)
     store.dispatch(userLoginSuccess(user));
 }
 

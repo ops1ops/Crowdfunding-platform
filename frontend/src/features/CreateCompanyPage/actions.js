@@ -10,9 +10,9 @@ export const userLogoutSuccess = () => ({
     type: USER_LOGOUT_SUCCESS,
 });
 
-export const userLogin = credentials => dispatch =>
+export const loadCategories = credentials => dispatch =>
     api.user.login(credentials).then(user => {
-        localStorage.setItem('userJWT', user.token);
+        localStorage.setItem('userJWT', user.data.token);
         dispatch(userLoginSuccess(user));
     });
 
