@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { userLogin } from './actions';
 import CreateCampaignPage from "./component";
 
-export { loginPageReducer } from './reducer';
 
-const mapDispatchToProps = () => ({
-    getCategories: loadCategories,
+
+const mapStateToProps = (store) => ({
+    categories: store.categories,
 });
 
+
 export default connect(
-    null,
-    mapDispatchToProps()
+    mapStateToProps
 )(CreateCampaignPage);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { CreateCampaignForm } from './CreateCampaignForm/component';
 import { validationSchema } from './validationSchema';
+import * as moment from 'moment'
 
 const CreateCampaignPage = () => {
     const categoriesArr = ['Games', 'Video', 'Music'];
@@ -13,7 +14,9 @@ const CreateCampaignPage = () => {
                 link: '',
                 category: categoriesArr[0],
                 goalAmount: 0,
-                expirationDate: new Date()
+                images: [],
+                expirationDate: new Date(),
+                description: '',
             }}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
@@ -22,9 +25,9 @@ const CreateCampaignPage = () => {
                     actions.setSubmitting(false);
                 }, 1000);
             }}
-            render={formikProps =>
-                <CreateCampaignForm {...formikProps} categoriesArr={categoriesArr}/>
-            }
+            render={formikProps => (
+                <CreateCampaignForm {...formikProps} categoriesArr={categoriesArr} />
+            )}
         />
     );
 };

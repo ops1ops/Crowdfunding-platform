@@ -1,12 +1,14 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { Field } from 'formik';
-import 'react-datepicker/dist/react-datepicker.css';
+import SimpleMDE from 'react-simplemde-editor';
+import 'easymde/dist/easymde.min.css';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import ImageUploader from './ImageUploader/component';
 import YoutubeVideo from './YoutubeVideo/component';
 import Section from './Section/component';
-
+import 'react-datepicker/dist/react-datepicker.css';
+import Feedback from 'react-bootstrap/Feedback';
+import moment from "moment";
 
 export const CreateCampaignForm = props => {
     const {
@@ -17,7 +19,7 @@ export const CreateCampaignForm = props => {
         handleBlur,
         touched,
         categoriesArr,
-        setFieldValue
+        setFieldValue,
     } = props;
 
     return (
@@ -62,8 +64,29 @@ export const CreateCampaignForm = props => {
                 }
             />
             <Section
+                title="Campaign description"
+                description="Describe what you're raising funds to do, why you care about it, how you plan to make it happen, and who you are. Your description should tell backers everything they need to know. If possible, include images to show them what your campaign is all about and what rewards look like."
+                render={
+                    <div>
+                        <SimpleMDE
+                            className="Mde"
+                            id="your-custom-id"
+                            label="Description"
+                            options={{
+                                spellChecker: false,
+                            }}
+                            onChange={e => setFieldValue('description', e)}
+                            value={values.description}
+                        />
+                        <p className="text-danger">
+                            <small>{errors.description}</small>
+                        </p>
+                    </div>
+                }
+            />
+            <Section
                 title="Campaign video"
-                description="Add a video from YouTube that describes your project."
+                description="Add a video from YouTube that describes your campaign."
                 render={
                     <YoutubeVideo
                         link={values.link}
@@ -77,7 +100,7 @@ export const CreateCampaignForm = props => {
             <Section
                 title="Campaign gallery"
                 description="Upload images that most closely capture the essence of your campaign."
-                render={<ImageUploader />}
+                render={<ImageUploader setFieldValue={setFieldValue} values={values} />}
             />
             <Section
                 title="Funding goal"
@@ -108,15 +131,16 @@ export const CreateCampaignForm = props => {
                 description="Set a time limit for your campaign. You won’t be able to change this after you launch"
                 render={
                     <Form.Group controlId="formBasicDatePicker">
-                        <Form.Label>Datepicker</Form.Label>
                         <DatePicker
+                            className="form-control"
                             name="expirationDate"
+                            minDate={new Date()}
                             selected={values.expirationDate}
-                            onChange={e => setFieldValue('expirationDate', e)}
+                            onChange={e => setFieldValue('expirationDate', new Date(e))}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.expirationDate}
-                        </Form.Control.Feedback>
+                        <p className="text-danger">
+                            <small>{errors.expirationDate}</small>
+                        </p>
                     </Form.Group>
                 }
             />
