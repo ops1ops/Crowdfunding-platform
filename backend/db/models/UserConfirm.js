@@ -1,5 +1,5 @@
-module.exports = (db, DataTypes) => {
-    const UserConfirm = db.define('User_confirm', {
+module.exports = (dbsetup, DataTypes) => {
+    const UserConfirm = dbsetup.define('User_confirm', {
         userId: {
             type: DataTypes.INTEGER,
             primaryKey: true,

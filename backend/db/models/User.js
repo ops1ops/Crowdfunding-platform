@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-    const User = db.define('User', {
+    return db.define('User', {
         firstName: {
             type: DataTypes.STRING,
             allowNull: false
@@ -40,8 +40,5 @@ module.exports = (db, DataTypes) => {
             allowNull: true
         }
     }, {
-
     });
-
-    return User;
 };

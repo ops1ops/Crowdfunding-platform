@@ -1,12 +1,11 @@
-const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { jwtKey, confirmSecret } = require('../config/keys');
-const db = require('../db/index');
-const User = require('../db/models/User')(db, Sequelize);
+const models = require('../db');
 const sendConfirmationEmail = require('../mailer/index');
-const UserConfirm = require('../db/models/UserConfirm')(db, Sequelize);
+
+const { UserConfirm, User } = models;
 
 exports.login = (req, res) => {
     const { credentials } = req.body;
@@ -24,7 +23,7 @@ exports.login = (req, res) => {
                     if (user.blocked) {
                         return res.status(403).json({ errors: 'Your account has been blocked'})
                     }
-                    const token = jwt.sign({ email: user.email }, jwtKey, { expiresIn: 43200});
+                    const token = jwt.sign({ id: user.id }, jwtKey, { expiresIn: 43200});
                     return res.json({
                         token,
                         firstName: user.firstName,
@@ -34,7 +33,6 @@ exports.login = (req, res) => {
                     });
                 }
             }
-
             return res.status(400).send({ errors: 'Invalid email or password' });
         })
         .catch(err => {
@@ -89,4 +87,3 @@ exports.signup = (req, res) => {
         return res.status(400).send({ errors: 'Invalid data passed'})
     }
 };
-

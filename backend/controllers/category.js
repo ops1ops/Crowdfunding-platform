@@ -1,10 +1,24 @@
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-const db = require('../db/index');
-const Category = require('../db/models/Category')(db, Sequelize);
+const models = require('../db');
+
+const { Category } = models;
 
 exports.getAll = (req, res) => {
     Category
         .findAll()
-        .then(categories => )
-}
+        .then(categories => res.json({ categories }))
+        .catch(err => {
+            console.log("LOG: ", err);
+            res.status(500).send({ errors: 'Something went wrong' })
+        })
+};
+
+exports.findByName = (name) => {
+    Category
+        .findOne({
+            where: {
+                name
+            }
+        })
+        .then(category => category.id)
+        .catch(err => err);
+};

@@ -19,7 +19,6 @@ class LoginFormContainer extends React.Component {
 
     onSubmit = (values, actions) => {
         this.props.submit(values).catch(err => {
-            console.log(err)
             this.setState({
                 serverErrors: {
                     message: err.message,

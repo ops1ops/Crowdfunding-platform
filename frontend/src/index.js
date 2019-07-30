@@ -6,12 +6,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { store } from './store/store';
 import { userLoginSuccess } from './features/LoginPage/actions';
+import setToken from "./utils/setToken";
 
 
 // refactor
 if (localStorage.userJWT) {
     const user = { token: localStorage.userJWT };
-    console.log(user)
+    setToken(user.token);
     store.dispatch(userLoginSuccess(user));
 }
 

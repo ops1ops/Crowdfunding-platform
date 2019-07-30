@@ -1,0 +1,8 @@
+import { createSelector } from 'reselect';
+
+export const categoriesSelector = state => state.createCampaignPageReducer;
+
+export const selectAllCategoriesTitles = createSelector(
+    categoriesSelector,
+    categories => []
+);

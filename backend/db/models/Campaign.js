@@ -1,10 +1,14 @@
-module.exports = (db, DataTypes) => {
-    return db.define('Campaign', {
-        genreId: {
-            type: DataTypes.STRING,
+module.exports = (dbsetup, DataTypes) => {
+    const Campaign = dbsetup.define('Campaign', {
+        categoryId: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
-        name: {
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
@@ -12,16 +16,20 @@ module.exports = (db, DataTypes) => {
         description: {
             type: DataTypes.STRING
         },
-        youtube: {
+        youtubeLink: {
             type: DataTypes.STRING
         },
-        goalPrice: {
+        currentAmount: {
+            type: DataTypes.DECIMAL,
+        },
+        goalAmount: {
             type: DataTypes.DECIMAL,
             allowNull: false
         },
-        expiryDate: {
+        expirationDate: {
             type: DataTypes.DATE,
             allowNull: false
         }
     });
+    return Campaign;
 };

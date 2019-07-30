@@ -1,8 +1,7 @@
-const Sequelize = require('sequelize');
-const db = require('../db/index');
+const models = require('../db');
 const { CLIENT } = require('../config/config');
-const UserConfirm = require('../db/models/UserConfirm')(db, Sequelize);
-const User = require('../db/models/User')(db, Sequelize);
+
+const { UserConfirm, User } = models;
 
 const getDeletedUser = (deleteItem) => {
     return UserConfirm
@@ -22,7 +21,7 @@ const getDeletedUser = (deleteItem) => {
 
 exports.confirmEmail = (req, res) => {
     const { token } = req.params;
-    // refactor and date check
+    // date check
 
     getDeletedUser({ token })
         .then(result => {
@@ -33,7 +32,7 @@ exports.confirmEmail = (req, res) => {
                         { where: { id: result.userId }}
                     )
                     .then(() => res.redirect(`${CLIENT}/login`)
-                        .catch(err => console.log(err)));
+                    .catch(err => console.log(err)));
             } else {
                 res.redirect(`${CLIENT}/error/${encodeURIComponent('Probably token expired')}`);
             }

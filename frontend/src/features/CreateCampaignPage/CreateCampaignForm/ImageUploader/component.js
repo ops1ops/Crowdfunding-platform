@@ -33,11 +33,11 @@ class ImageUploader extends React.Component {
     }
 
     handleChange = info => {
-        console.log("info",info);
-        const rest = [...info.fileList];
+        console.log("info", info);
         const { status } = info.file;
         if (status !== 'uploading') {
-            this.props.setFieldValue('images', ...rest);
+            const imagesUrl = info.fileList.map(item => item.response.url);
+            this.props.setFieldValue('images', imagesUrl);
         }
     };
 

@@ -1,48 +1,65 @@
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-const db = require('../db/index');
-const Campaign = require('../db/models/Campaign')(db, Sequelize);
+const models = require('../db');
 
-exports.createCompany = (req, res) => {
+const { Category, Campaign, CampaignImages, User } = models;
 
-    Campaign
-        .create({
-            genre_id: 1,
-            name: 'test1' + Math.random(),
-            description: 'desc',
-            youtube: 'youtube.com',
-            goal_price: 2.234,
-            expiry_date: new Date()
-        })
-            .then(company => {
-                res.redirect('/api/companies');
-                console.log("Created companies with id: ", company.id)
+
+exports.createCampaign = (req, res) => {
+    const { data } = req.body;
+    const isDataValid =
+        data &&
+        data.title &&
+        data.link &&
+        data.category &&
+        data.goalAmount &&
+        data.expirationDate &&
+        data.description;
+
+    if (isDataValid) {
+        Category
+            .findOne({
+                where: {
+                    name: data.category,
+                }
             })
-            .catch(err => {
-                res.json(err.original.message);
-                console.log("Error creating in companies: ", err.original.message)
-            });
+            .then(category => {
+                const imagesWithURL = data.images.map(item => {return {url: item}});
+                Campaign
+                    .create({
+                        title: data.title,
+                        categoryId: category.id,
+                        description: data.description,
+                        userId: req.userId,
+                        images: imagesWithURL,
+                        youtubeLink: data.link,
+                        goalAmount: data.goalAmount,
+                        expirationDate: data.expirationDate
+                    }, {
+                        include: [ 'images' ]
+                    })
+                    .then(campaign => {
+                        res.send({ id: campaign.id});
+                        console.log("Created campaign with id: ", campaign.id);
+                    })
+                    .catch(err => {
+                        res.status(400).json(err);
+                        console.log("Error creating in Component: ", err);
+                    });
+            })
+            .catch(() => {
+                return res.status(400).send({ errors: 'This category doesnt exist' })
+            })
+    } else {
+        return res.status(400).send({ errors: 'No data provided' });
+    }
 };
 
-exports.getAllCompanies = (req, res) => {
+exports.getAllCampaigns = (req, res) => {
     Campaign
         .findAll()
         .then(companies => res.json(companies))
         .catch(err => res.json(err));
 };
 
-exports.deleteCompany = (req, res) => {
-    Campaign
-        .destroy({
-            where: {
-                name: {
-                    [Op.like]: '%test%'
-                }
-            }
-        })
-        .then(destroyed => {
-            console.log("destroyed: ", destroyed);
-            res.redirect('/api/companies');
-        })
-        .catch(err => res.json(err));
+exports.deleteCampaign = (req, res) => {
+
 };

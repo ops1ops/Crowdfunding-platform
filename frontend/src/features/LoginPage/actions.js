@@ -1,5 +1,6 @@
 import { USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS } from './constants';
 import api from '../../services/api';
+import setToken from "../../utils/setToken";
 
 export const userLoginSuccess = user => ({
     type: USER_LOGIN_SUCCESS,
@@ -13,10 +14,12 @@ export const userLogoutSuccess = () => ({
 export const userLogin = credentials => dispatch =>
     api.user.login(credentials).then(user => {
         localStorage.setItem('userJWT', user.token);
+        setToken(user.token);
         dispatch(userLoginSuccess(user));
     });
 
 export const userLogout = () => dispatch => {
     localStorage.removeItem('userJWT');
+    setToken();
     dispatch(userLogoutSuccess());
 };

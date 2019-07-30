@@ -1,18 +1,22 @@
 const Sequelize = require('sequelize');
-const { database } = require('../config/keys');
+const db = require('./setup');
 
-const db = new Sequelize(database.name, database.username, database.password, {
-   host: database.host,
-   dialect: database.dialect
-});
+const models = {};
 
-db.authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
+models.User = require('./models/User')(db, Sequelize);
+models.Campaign = require('./models/Campaign')(db, Sequelize);
+models.CampaignImages = require('./models/CampaignImages')(db, Sequelize);
+models.Category = require('./models/Category')(db, Sequelize);
+models.UserConfirm = require('./models/UserConfirm')(db, Sequelize);
 
 
-module.exports = db;
+models.Campaign.belongsTo(models.Category, {as: 'category'});
+models.Category.hasMany(models.Campaign, {as: 'campaigns'});
+
+models.Campaign.belongsTo(models.User, {as: 'user'});
+models.User.hasMany(models.Campaign, {as: 'campaigns'});
+
+models.CampaignImages.belongsTo(models.Campaign);
+models.Campaign.hasMany(models.CampaignImages, {as: 'images'});
+
+module.exports = models;
