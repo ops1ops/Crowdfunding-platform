@@ -14,7 +14,7 @@ const initialState = {
 export const createCampaignPageReducer = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_CAMPAIGN:
-            return { ...state, isLoading: true };
+            return { ...state, isLoading: true, error: ''};
         case CREATE_CAMPAIGN_FAIL:
             return { ...state, error: action.payload.response.data.errors, isLoading: false };
         case CREATE_CAMPAIGN_SUCCESS:

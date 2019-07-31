@@ -9,7 +9,7 @@ export const loginPageReducer = (state = initialState, action) => {
         case USER_LOGIN_SUCCESS:
             return { ...state, ...action.user, isAuthorized: true };
         case USER_LOGOUT_SUCCESS:
-            return { ...state, isAuthorized: false, token: '' };
+            return { ...state, isAuthorized: false, token: '', id: '' };
         default:
             return state;
     }

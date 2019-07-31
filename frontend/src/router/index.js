@@ -9,7 +9,7 @@ import GuestRoute from './GuestRoute/component';
 import SignupPage from '../features/SignupPage/component';
 import Home from '../features/Home/component';
 import ErrorPage from '../features/ErrorPage/component';
-import CampaignPage from "../features/CampaignPage/component";
+import CampaignPage from "../features/CampaignPage";
 
 const Router = () => {
     return (
@@ -20,6 +20,7 @@ const Router = () => {
             <Route exact path="/" component={Home} />
             <Route exact path="/campaigns" component={Companies} />
             <PrivateRoute exact path="/campaigns/create" component={CreateCampaignPage} />
+            <PrivateRoute exact path="/campaign/edit/:id" component={CreateCampaignPage} />
             <Route exact path="/error/:message" component={ErrorPage} />
             <Route path="/404" component={NotFound} />
             <Redirect from="*" to="/404" />

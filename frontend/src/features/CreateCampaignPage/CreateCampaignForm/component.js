@@ -2,14 +2,14 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
-import {Button, Form, InputGroup, Row} from 'react-bootstrap';
+import { Button, Form, InputGroup, Row } from 'react-bootstrap';
 import ImageUploader from './ImageUploader/component';
 import YoutubeVideo from './YoutubeVideo/component';
 import Section from './Section/component';
 import 'react-datepicker/dist/react-datepicker.css';
 import Feedback from 'react-bootstrap/Feedback';
 import moment from 'moment';
-import Spinner from "react-bootstrap/Spinner";
+import Spinner from 'react-bootstrap/Spinner';
 
 export const CreateCampaignForm = props => {
     const {
@@ -21,7 +21,7 @@ export const CreateCampaignForm = props => {
         touched,
         categoriesArr,
         setFieldValue,
-        isSubmitting
+        isLoading,
     } = props;
 
     return (
@@ -147,9 +147,13 @@ export const CreateCampaignForm = props => {
                 }
             />
             <div className="d-flex justify-content-center align-items-center">
-                <Button className="w-25 my-4" variant="primary" type="submit" >
-                    {/*isSubmitting ? <Spinner animation="border" size="sm" />*/}
-                    {'Submit'}
+                <Button
+                    className="w-25 my-4"
+                    variant="primary"
+                    type="submit"
+                    disabled={isLoading}
+                >
+                    {isLoading ? <Spinner animation="border" size="sm" /> : 'Submit'}
                 </Button>
             </div>
         </form>

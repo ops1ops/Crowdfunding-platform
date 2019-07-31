@@ -4,7 +4,7 @@ import { CreateCampaignForm } from './CreateCampaignForm/component';
 import { validationSchema } from './validationSchema';
 import { PropTypes } from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import {notification} from "antd";
+import { notification } from 'antd';
 
 class CreateCampaignPage extends React.Component {
     componentDidMount() {
@@ -16,20 +16,28 @@ class CreateCampaignPage extends React.Component {
     }
 
     render() {
-        const { categories, createCampaign, isLoading, campaign, error } = this.props;
+        const {
+            categories,
+            createCampaign,
+            isLoading,
+            campaign,
+            error,
+            campaignToUpdate,
+        } = this.props;
 
         return (
             <div>
-                {error && notification.error ({
-                    message: 'Submitting error',
-                    description: error
-                })}
-                {campaign.id ? <Redirect to={`/campaign/${campaign.id}`}/> : null}
+                {error &&
+                    notification.error({
+                        message: 'Submitting error',
+                        description: error,
+                    })}
+                {campaign.id ? <Redirect to={`/campaign/${campaign.id}`} /> : null}
                 <Formik
                     initialValues={{
                         title: '',
                         link: '',
-                        category: 'Art',
+                        category: categories ? categories[0] : '',
                         goalAmount: 0,
                         images: [],
                         expirationDate: new Date(),
@@ -37,11 +45,16 @@ class CreateCampaignPage extends React.Component {
                     }}
                     // validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
+                        console.log(values)
                         createCampaign(values);
                         actions.setSubmitting(false);
                     }}
                     render={formikProps => (
-                        <CreateCampaignForm {...formikProps} categoriesArr={categories} />
+                        <CreateCampaignForm
+                            {...formikProps}
+                            categoriesArr={categories}
+                            isLoading={isLoading}
+                        />
                     )}
                 />
             </div>
@@ -55,6 +68,8 @@ CreateCampaignPage.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
     resetCampaign: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    campaignToUpdate: PropTypes.object,
     campaign: PropTypes.shape({
         id: PropTypes.number,
     }),

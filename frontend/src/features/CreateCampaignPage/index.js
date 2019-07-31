@@ -14,8 +14,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => ({
     getCategories,
-    createCampaign: createCampaignRequest,
     resetCampaign,
+    createCampaign: createCampaignRequest,
 });
 
 export default connect(

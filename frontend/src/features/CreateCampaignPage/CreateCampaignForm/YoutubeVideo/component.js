@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 import YouTube from 'react-youtube';
+import getVideoId from "../../../../utils/getVideoId";
+
 
 class YoutubeVideo extends Component {
     constructor(props) {
@@ -10,15 +12,6 @@ class YoutubeVideo extends Component {
             isExists: false,
         };
     }
-
-    getIdFromLink = url => {
-        const regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-        const match = url.match(regExp);
-        if (match && match[1].length === 11) {
-            return match[1];
-        }
-        return false;
-    };
 
     render() {
         const { link, handleBlur, errors, touched, handleChange } = this.props;
@@ -42,7 +35,7 @@ class YoutubeVideo extends Component {
                 </Form.Group>
                 {!errors.link && link !== '' && (
                     <YouTube
-                        videoId={this.getIdFromLink(link)}
+                        videoId={getVideoId(link)}
                         opts={{
                             height: '360',
                             width: '100%',

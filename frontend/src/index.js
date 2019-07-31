@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import decode from "jwt-decode";
 import './index.css';
 import { Provider } from 'react-redux';
 import App from './App';
@@ -11,8 +12,10 @@ import setToken from "./utils/setToken";
 
 // refactor
 if (localStorage.userJWT) {
-    const user = { token: localStorage.userJWT };
-    setToken(user.token);
+    const token = localStorage.userJWT;
+    const payload = decode(token);
+    const user = { token, id: payload.id};
+    setToken(token);
     store.dispatch(userLoginSuccess(user));
 }
 
