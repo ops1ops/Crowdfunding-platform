@@ -10,7 +10,9 @@ export default {
         getAll: () => axios.get('/api/categories').then(res => res.data),
     },
     campaigns: {
+        delete: id => axios.delete(`/api/campaign/${id}`).then(res => res.data),
         getById: id => axios.get(`/api/campaign/${id}`).then(res => res.data.campaign),
+        update: data => axios.put(`/api/campaign/${data.id}`, { data }).then(res => res.data),
         create: data => axios.post('/api/campaigns', { data }).then(res => res.data),
     },
 };

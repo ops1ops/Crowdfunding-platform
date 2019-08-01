@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import LoginPage from '../features/LoginPage';
 import Companies from '../features/Home/Companies';
-import CreateCampaignPage from '../features/CreateCampaignPage';
+import CreateCampaignPage from '../features/CampaignEditorPage';
 import NotFound from '../features/layout/NotFound';
 import PrivateRoute from './PrivateRoute/component';
 import GuestRoute from './GuestRoute/component';

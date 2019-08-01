@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CampaignPage from './component';
-import { getCampaignRequest } from './actions';
+import {deleteCampaignRequest, getCampaignRequest} from './actions';
 
 export { campaignPageReducer } from './reducer';
 
@@ -9,10 +9,12 @@ const mapStateToProps = state => ({
     campaign: state.campaignPageReducer.campaign,
     error: state.campaignPageReducer.error,
     user: state.user,
+    isDeleted: state.campaignPageReducer.isDeleted,
 });
 
 const mapDispatchToProps = () => ({
-    getCampaign: getCampaignRequest
+    getCampaign: getCampaignRequest,
+    deleteCampaign: deleteCampaignRequest,
 });
 
 export default connect(

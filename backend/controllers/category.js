@@ -12,13 +12,13 @@ exports.getAll = (req, res) => {
         })
 };
 
-exports.findByName = (name) => {
-    Category
-        .findOne({
-            where: {
-                name
-            }
-        })
-        .then(category => category.id)
-        .catch(err => err);
-};
+// exports.findByName = (name) => {
+//     Category
+//         .findOne({
+//             where: {
+//                 name
+//             }
+//         })
+//         .then(category => category.id)
+//         .catch(err => err);
+// };

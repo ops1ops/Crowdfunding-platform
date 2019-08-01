@@ -17,7 +17,7 @@ const props = {
     multiple: true,
     listType: 'picture-card',
     action:
-        'https://api.cloudinary.com/v1_1/pop4enz/upload?upload_preset=crowdfundingpop',
+        'https://api.cloudinary.com/v1_1/ops1ops/upload?upload_preset=crowdfundingpop',
     accept: 'image/*',
 };
 
@@ -32,11 +32,16 @@ class ImageUploader extends React.Component {
         };
     }
 
+    componentDidMount() {
+        if (this.props.values.images)
+        this.props.setFieldValue('images', this.props.values.images);
+    }
+
     handleChange = info => {
         console.log("info", info);
         const { status } = info.file;
         if (status !== 'uploading') {
-            const imagesUrl = info.fileList.map(item => item.response.url);
+            const imagesUrl = info.fileList.map(item => (item.response ? item.response.url : item.url));
             this.props.setFieldValue('images', imagesUrl);
         }
     };
@@ -55,7 +60,8 @@ class ImageUploader extends React.Component {
     handleCancel = () => this.setState({ previewVisible: false });
 
     render() {
-        const { previewVisible, previewImage, fileList } = this.state;
+        const { previewVisible, previewImage } = this.state;
+        const { images } = this.props.values;
 
         return (
             <div>
@@ -63,7 +69,7 @@ class ImageUploader extends React.Component {
                     {...props}
                     onPreview={this.handlePreview}
                     onChange={this.handleChange}
-                    defaultFileList={this.props.values.images}
+                    defaultFileList={images}
                 >
                     <p className="ant-upload-drag-icon">
                         <Icon type="inbox" />

@@ -23,12 +23,12 @@ exports.login = (req, res) => {
                     if (user.blocked) {
                         return res.status(403).json({ errors: 'Your account has been blocked'})
                     }
-                    const token = jwt.sign({ id: user.id }, jwtKey, { expiresIn: 43200});
+                    const token = jwt.sign({ id: user.id }, jwtKey);
                     return res.json({
                         token,
+                        id: user.id,
                         firstName: user.firstName,
                         lastName: user.lastName,
-                        email: user.email,
                         isAuthorized: true
                     });
                 }

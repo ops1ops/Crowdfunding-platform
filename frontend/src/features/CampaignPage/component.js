@@ -3,15 +3,19 @@ import './styles.css';
 import { PropTypes } from 'prop-types';
 import { Button, Carousel, Col, Container, Row } from 'react-bootstrap';
 import YouTube from 'react-youtube';
-import { Progress, Rate, Tabs } from 'antd';
+import { Progress, Rate, Tabs, Modal } from 'antd';
 import getVideoId from '../../utils/getVideoId';
 import getLeftDays from '../../utils/getLeftDays';
-import CreateCampaignPage from '../CreateCampaignPage';
+import CreateCampaignPage from '../CampaignEditorPage';
 import { Link } from 'react-router-dom';
+import DeleteModal from './DeleteModal/component';
+import {Redirect} from "react-router-dom";
 
+const { confirm } = Modal;
 const { TabPane } = Tabs;
 
 class CampaignPage extends Component {
+
     componentDidMount() {
         const { id } = this.props.match.params;
 
@@ -19,12 +23,14 @@ class CampaignPage extends Component {
     }
 
     render() {
-        const { campaign, user } = this.props;
+        const { campaign, user, deleteCampaign, isLoading, error, isDeleted } = this.props;
         const isUserCreator = campaign.user && user && user.id === campaign.user.id;
         console.log(campaign);
 
         return (
             <div>
+                {error === 'Campaign doesnt exist' && <Redirect to="/404"/>}
+                {isDeleted && <Redirect to="/"/>}
                 <Container className="py-4">
                     <h1 className="text-center">{campaign.title}</h1>
                     <h3 className="text-center pb-4">
@@ -92,12 +98,19 @@ class CampaignPage extends Component {
                             {isUserCreator && (
                                 <div className="d-flex justify-content-between mt-5">
                                     <Link
-                                        to={`/campaign/edit/${campaign.id ? campaign.id : null}`}
+                                        to={`/campaign/edit/${
+                                            campaign.id ? campaign.id : null
+                                        }`}
                                         className="btn btn-outline-success w-25"
                                     >
                                         Edit
                                     </Link>
-                                    <Button variant="outline-danger w-25">Delete</Button>
+                                    <DeleteModal
+                                        deleteCampaign={deleteCampaign}
+                                        isLoading={isLoading}
+                                        error={error}
+                                        campaign={campaign}
+                                    />
                                 </div>
                             )}
                         </Col>
@@ -138,9 +151,13 @@ class CampaignPage extends Component {
 }
 
 CampaignPage.propTypes = {
+    isDeleted: PropTypes.bool.isRequired,
+    deleteCampaign: PropTypes.func.isRequired,
     getCampaign: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired,
     campaign: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
 };
 
 export default CampaignPage;
