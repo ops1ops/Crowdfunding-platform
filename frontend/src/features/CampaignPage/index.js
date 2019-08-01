@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import CampaignPage from './component';
-import {deleteCampaignRequest, getCampaignRequest} from './actions';
+import { deleteCampaignRequest, getCampaignRequest } from './actions';
 
 export { campaignPageReducer } from './reducer';
 

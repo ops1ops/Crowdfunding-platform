@@ -6,10 +6,6 @@ exports.verifyCreator = (req, res, next) => {
     const { userId } = req;
     const { id } = req.params;
 
-    console.log(id, userId)
-
-    console.log(id, userId)
-
     Campaign
         .findOne({
             where: {

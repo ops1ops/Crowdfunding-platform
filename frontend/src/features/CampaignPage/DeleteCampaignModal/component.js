@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
-import {Redirect} from "react-router";
 import {notification} from "antd";
 import Spinner from "react-bootstrap/Spinner";
 
-class DeleteModal extends Component {
+class DeleteCampaignModal extends Component {
     constructor(props) {
         super(props);
 
@@ -66,11 +65,11 @@ class DeleteModal extends Component {
     }
 }
 
-DeleteModal.propTypes = {
+DeleteCampaignModal.propTypes = {
     error: PropTypes.string.isRequired,
     deleteCampaign: PropTypes.func.isRequired,
     campaign: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
 };
 
-export default DeleteModal;
+export default DeleteCampaignModal;

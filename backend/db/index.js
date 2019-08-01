@@ -6,9 +6,12 @@ const models = {};
 models.User = require('./models/User')(db, Sequelize);
 models.Campaign = require('./models/Campaign')(db, Sequelize);
 models.CampaignImages = require('./models/CampaignImages')(db, Sequelize);
+models.CampaignRewards = require('./models/CampaignRewards')(db, Sequelize);
 models.Category = require('./models/Category')(db, Sequelize);
 models.UserConfirm = require('./models/UserConfirm')(db, Sequelize);
 
+models.CampaignRewards.belongsTo(models.Campaign);
+models.Campaign.hasMany(models.CampaignRewards, {as: 'rewards'});
 
 models.Campaign.belongsTo(models.Category, {as: 'category'});
 models.Category.hasMany(models.Campaign, {as: 'campaigns'});

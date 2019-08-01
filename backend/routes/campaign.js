@@ -1,13 +1,16 @@
 const router = require('express').Router();
 const { verifyJWT } =  require("../middlewares/verifyJWT");
 const { verifyCreator } =  require("../middlewares/verifyCreator");
-const controller = require('../controllers/campaign');
+const campaignController = require('../controllers/campaign');
+const rewardController = require('../controllers/reward');
 
 
-router.get('/campaigns', controller.getAllCampaigns);
-router.post('/campaigns', verifyJWT, controller.createCampaign);
-router.put('/campaign/:id', verifyJWT, verifyCreator, controller.updateCampaign);
-router.delete('/campaign/:id', verifyJWT, verifyCreator, controller.deleteCampaign);
-router.get('/campaign/:id', controller.getCampaignById);
+router.get('/campaigns', campaignController.getAllCampaigns);
+router.post('/campaigns', verifyJWT, campaignController.createCampaign);
+router.put('/campaign/:id', verifyJWT, verifyCreator, campaignController.updateCampaign);
+router.delete('/campaign/:id', verifyJWT, verifyCreator, campaignController.deleteCampaign);
+router.get('/campaign/:id', campaignController.getCampaignById);
+
+router.post('/campaign/:id/rewards', verifyJWT, verifyCreator, rewardController.createReward);
 
 module.exports = router;

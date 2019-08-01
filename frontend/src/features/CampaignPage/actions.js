@@ -46,6 +46,7 @@ export const getCampaignRequest = id => dispatch => {
         })
         .catch(err => {
             dispatch(getCampaignFail(err));
+            dispatch(clearErrors());
         });
 };
 

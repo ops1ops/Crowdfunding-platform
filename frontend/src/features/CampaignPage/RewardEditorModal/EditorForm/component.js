@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
 import CampaignPage from '../../component';
+import Spinner from "react-bootstrap/Spinner";
 
-class RewardEditorModal extends Component {
+class EditorForm extends Component {
     render() {
         const {
             show,
@@ -14,6 +15,7 @@ class RewardEditorModal extends Component {
             handleBlur,
             errors,
             touched,
+            isLoading,
         } = this.props;
 
         return (
@@ -78,8 +80,8 @@ class RewardEditorModal extends Component {
                         <Button variant="outline-secondary" onClick={handleClose}>
                             Close
                         </Button>
-                        <Button variant="success" type="submit" onClick={handleSubmit}>
-                            Save
+                        <Button variant="success" type="submit" onClick={handleSubmit} disabled={isLoading}>
+                            {isLoading ? <Spinner animation="border" size="sm" /> : 'Create/Save'}
                         </Button>
                     </Modal.Footer>
                 </form>
@@ -88,8 +90,9 @@ class RewardEditorModal extends Component {
     }
 }
 
-RewardEditorModal.propTypes = {
+EditorForm.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
     show: PropTypes.bool.isRequired,
 };
 
-export default RewardEditorModal;
+export default EditorForm;

@@ -135,7 +135,7 @@ exports.deleteCampaign = (req, res) => {
         })
         .then(isDestroyed => {
             if (isDestroyed) {
-                setTimeout(res.send({ id }), 5000);
+                return res.send({ id });
             }
             return res.status(400).send({ errors: 'Was not deleted' })
         })

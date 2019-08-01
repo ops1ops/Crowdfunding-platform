@@ -8,8 +8,9 @@ import getVideoId from '../../utils/getVideoId';
 import getLeftDays from '../../utils/getLeftDays';
 import CreateCampaignPage from '../CampaignEditorPage';
 import { Link } from 'react-router-dom';
-import DeleteModal from './DeleteModal/component';
+import DeleteCampaignModal from './DeleteCampaignModal/component';
 import {Redirect} from "react-router-dom";
+import RewardEditorModal from "./RewardEditorModal";
 
 const { confirm } = Modal;
 const { TabPane } = Tabs;
@@ -105,7 +106,7 @@ class CampaignPage extends Component {
                                     >
                                         Edit
                                     </Link>
-                                    <DeleteModal
+                                    <DeleteCampaignModal
                                         deleteCampaign={deleteCampaign}
                                         isLoading={isLoading}
                                         error={error}
@@ -129,9 +130,7 @@ class CampaignPage extends Component {
                                             Select reward
                                         </h4>
                                         {isUserCreator && (
-                                            <Button variant="outline-success w-100 mb-3">
-                                                Add new reward
-                                            </Button>
+                                            <RewardEditorModal/>
                                         )}
                                     </Col>
                                 </Row>

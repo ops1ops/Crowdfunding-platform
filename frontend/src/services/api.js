@@ -15,4 +15,7 @@ export default {
         update: data => axios.put(`/api/campaign/${data.id}`, { data }).then(res => res.data),
         create: data => axios.post('/api/campaigns', { data }).then(res => res.data),
     },
+    rewards: {
+        create: data => axios.post(`/api/campaign/${data.id}/rewards`, { data }).then(res => res.data),
+    }
 };
