@@ -11,6 +11,9 @@ router.put('/campaign/:id', verifyJWT, verifyCreator, campaignController.updateC
 router.delete('/campaign/:id', verifyJWT, verifyCreator, campaignController.deleteCampaign);
 router.get('/campaign/:id', campaignController.getCampaignById);
 
+router.get('/campaign/:id/rewards', rewardController.getAllByCampaign);
 router.post('/campaign/:id/rewards', verifyJWT, verifyCreator, rewardController.createReward);
+router.put('/campaign/:id/reward/:rewardId', verifyJWT, verifyCreator, rewardController.updateReward);
+router.delete('/campaign/:id/reward/:rewardId', verifyJWT, verifyCreator, rewardController.deleteReward);
 
 module.exports = router;

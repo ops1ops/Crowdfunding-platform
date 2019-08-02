@@ -1,25 +1,21 @@
 import { connect } from 'react-redux';
-import CampaignEditorPage from './component';
-import {
-    createRewardRequest
-} from './actions';
-
+import RewardEditorModal from './component';
+import { createRewardRequest, updateRewardRequest } from './actions';
 
 export { createRewardReducer } from './reducer';
 
 const mapStateToProps = state => ({
     campaign: state.campaignPageReducer.campaign,
-    reward: state.createRewardReducer.reward,
     isLoading: state.createRewardReducer.isLoading,
     error: state.createRewardReducer.error,
-    isCreating: state.createRewardReducer.isCreating,
 });
 
 const mapDispatchToProps = () => ({
+    updateReward: updateRewardRequest,
     createReward: createRewardRequest,
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps()
-)(CampaignEditorPage);
+)(RewardEditorModal);

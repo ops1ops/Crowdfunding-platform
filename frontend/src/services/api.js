@@ -16,6 +16,9 @@ export default {
         create: data => axios.post('/api/campaigns', { data }).then(res => res.data),
     },
     rewards: {
-        create: data => axios.post(`/api/campaign/${data.id}/rewards`, { data }).then(res => res.data),
+        delete: data => axios.delete(`/api/campaign/${data.id}/reward/${data.rewardId}`).then(res => res.data),
+        update: data => axios.put(`/api/campaign/${data.id}/reward/${data.rewardId}`, { data }).then(res => res.data),
+        getAllByCampaign: id => axios.get(`/api/campaign/${id}/rewards`).then(res => res.data.rewards),
+        create: data => axios.post(`/api/campaign/${data.id}/rewards`, { data }).then(res => res.data.reward),
     }
 };

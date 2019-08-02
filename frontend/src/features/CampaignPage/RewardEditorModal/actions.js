@@ -1,12 +1,24 @@
 import {
-    CREATE_REWARD, CREATE_REWARD_SUCCESS, CREATE_REWARD_FAIL,
+    CREATE_REWARD,
+    CREATE_REWARD_SUCCESS,
+    CREATE_REWARD_FAIL,
+    UPDATE_REWARD_REQUEST, UPDATE_REWARD_FAIL, UPDATE_REWARD_SUCCESS,
 } from './constants';
-import api from "../../../services/api";
-
-
+import api from '../../../services/api';
+import {addReward, updateReward} from '../RewardsSection/actions';
 
 export const createRewardSuccess = payload => ({
     type: CREATE_REWARD_SUCCESS,
+    payload,
+});
+
+export const updateRewardFail = payload => ({
+    type: UPDATE_REWARD_FAIL,
+    payload,
+});
+
+export const updateRewardSuccess = payload => ({
+    type: UPDATE_REWARD_SUCCESS,
     payload,
 });
 
@@ -15,33 +27,36 @@ export const createRewardFail = payload => ({
     payload,
 });
 
+export const updateRewardRequest = data => dispatch =>
+    new Promise(function(resolve, reject) {
+        dispatch({ type: UPDATE_REWARD_REQUEST });
+
+        api.rewards
+            .update(data)
+            .then(reward => {
+                dispatch(updateRewardSuccess(reward.id));
+                dispatch(updateReward(reward));
+                resolve(reward.id);
+            })
+            .catch(err => {
+                dispatch(updateRewardFail(err));
+                reject(err);
+            });
+    });
+
 export const createRewardRequest = data => dispatch =>
     new Promise(function(resolve, reject) {
         dispatch({ type: CREATE_REWARD });
 
         api.rewards
             .create(data)
-            .then(id => {
-                dispatch(createRewardSuccess(id));
-                resolve(id);
+            .then(reward => {
+                dispatch(createRewardSuccess(reward.id));
+                dispatch(addReward(reward));
+                resolve(reward.id);
             })
             .catch(err => {
                 dispatch(createRewardFail(err));
                 reject(err);
             });
     });
-
-
-// export const updateCampaignRequest = data => dispatch => {
-//     dispatch({ type: UPDATE_CAMPAIGN });
-//
-//     api.campaigns
-//         .update(data)
-//         .then(id => {
-//             dispatch(updateCampaignSuccess(id));
-//         })
-//         .catch(err => {
-//             dispatch(updateCampaignFail(err));
-//             dispatch(clearErrors());
-//         });
-// };

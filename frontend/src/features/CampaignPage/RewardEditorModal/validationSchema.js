@@ -8,8 +8,9 @@ export const validationSchema = yup.object({
         .string()
         .min(5, 'Description is too short')
         .required('Required field'),
-    price: yup
+    amount: yup
         .number()
+        .truncate(2)
         .positive('Pledge amount should be positive number')
         .required('Required field')
         .typeError('Pledge amount should be a number'),

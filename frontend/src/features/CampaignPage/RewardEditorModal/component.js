@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import EditorForm from './EditorForm/component';
 import { Formik } from 'formik';
-import { CreateCampaignForm } from '../../CampaignEditorPage/EditCampaignForm/component';
 import { validationSchema } from './validationSchema';
 import { PropTypes } from 'prop-types';
 
@@ -27,37 +26,60 @@ class RewardEditorModal extends Component {
 
     render() {
         const { show } = this.state;
-        const { createReward, campaign, isLoading, reward } = this.props;
+        const {
+            updateReward,
+            createReward,
+            isLoading,
+            reward,
+            id,
+            isCreating,
+        } = this.props;
+        console.log(reward);
 
         return (
             <>
-                <Button variant="outline-success w-100" onClick={this.handleShow}>
-                    Add reward
+                <Button variant="outline-success w-100 mt-3" onClick={this.handleShow}>
+                    {isCreating ? 'Add reward' : 'Edit'}
                 </Button>
                 <Formik
-                    initialValues={{
-                        name: '',
-                        description: '',
-                        price: 0,
-                    }}
+                    initialValues={
+                        isCreating
+                            ? {
+                                  name: '',
+                                  description: '',
+                                  amount: 0,
+                              }
+                            : {
+                                  name: reward ? reward.name : '',
+                                  description: reward ? reward.description : '',
+                                  amount: reward ? reward.amount : '',
+                              }
+                    }
                     onSubmit={(values, actions) => {
+                        console.log(values);
                         const data = {
-                            id: campaign.id,
+                            id,
+                            rewardId: reward ? reward.id : null,
                             ...values,
                         };
-                        createReward(data)
-                            .then(res => {
-                                console.log("res", res);
+                        if (isCreating) {
+                            createReward(data).then(() => {
                                 this.handleClose();
                                 actions.resetForm();
-                            })
-                            .catch(err => console.log(err))
+                            });
+                        } else {
+                            updateReward(data).then(() => {
+                                this.handleClose();
+                                actions.resetForm();
+                            });
+                        }
                     }}
                     validationSchema={validationSchema}
                     render={formikProps => (
                         <EditorForm
                             {...formikProps}
                             show={show}
+                            isCreating={isCreating}
                             isLoading={isLoading}
                             handleClose={this.handleClose}
                         />
@@ -70,8 +92,10 @@ class RewardEditorModal extends Component {
 
 RewardEditorModal.propTypes = {
     createReward: PropTypes.func.isRequired,
-    reward: PropTypes.object.isRequired,
-    campaign: PropTypes.object.isRequired,
+    updateReward: PropTypes.func.isRequired,
+    reward: PropTypes.object,
+    buttonText: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
     isCreating: PropTypes.bool.isRequired,

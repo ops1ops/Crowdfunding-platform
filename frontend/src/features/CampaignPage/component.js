@@ -6,13 +6,11 @@ import YouTube from 'react-youtube';
 import { Progress, Rate, Tabs, Modal } from 'antd';
 import getVideoId from '../../utils/getVideoId';
 import getLeftDays from '../../utils/getLeftDays';
-import CreateCampaignPage from '../CampaignEditorPage';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import DeleteCampaignModal from './DeleteCampaignModal/component';
-import {Redirect} from "react-router-dom";
 import RewardEditorModal from "./RewardEditorModal";
+import RewardSection from "./RewardsSection";
 
-const { confirm } = Modal;
 const { TabPane } = Tabs;
 
 class CampaignPage extends Component {
@@ -24,7 +22,7 @@ class CampaignPage extends Component {
     }
 
     render() {
-        const { campaign, user, deleteCampaign, isLoading, error, isDeleted } = this.props;
+        const { campaign, user, deleteCampaign, isLoading, error, isDeleted, match } = this.props;
         const isUserCreator = campaign.user && user && user.id === campaign.user.id;
         console.log(campaign);
 
@@ -130,8 +128,9 @@ class CampaignPage extends Component {
                                             Select reward
                                         </h4>
                                         {isUserCreator && (
-                                            <RewardEditorModal/>
+                                            <RewardEditorModal id={match.params.id} isCreating="true"/>
                                         )}
+                                        <RewardSection id={match.params.id} isUserCreator={isUserCreator}/>
                                     </Col>
                                 </Row>
                             </Container>

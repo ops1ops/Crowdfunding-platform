@@ -38,13 +38,13 @@ exports.createCampaign = (req, res) => {
                     })
                     .then(campaign => {
                         res.send({ id: campaign.id});
-                        console.log("Created campaign with id: ", campaign.id);
                     })
                     .catch(err => {
-                        console.log("Error creating in Component: ", err);
+                        console.log("log: ", err);
                         if (err.original.code ==='ER_DUP_ENTRY') {
                             return res.status(400).json({ errors: 'Title is already taken' });
                         }
+                        return res.status(500).send({ errors: 'Unexpected error. Try again later' });
                     });
             })
             .catch(() => {
@@ -179,7 +179,7 @@ exports.getCampaignById = (req, res) => {
             return res.status(404).send({ errors: 'Campaign doesnt exist' });
         })
         .catch(err => {
-            console.log(err.message);
+            console.log("log: ", err);
             return res.status(500).send({ errors: 'Unexpected error. Try again later'});
         })
 };

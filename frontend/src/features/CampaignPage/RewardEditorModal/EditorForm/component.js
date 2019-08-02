@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
-import CampaignPage from '../../component';
 import Spinner from "react-bootstrap/Spinner";
 
 class EditorForm extends Component {
@@ -16,6 +15,7 @@ class EditorForm extends Component {
             errors,
             touched,
             isLoading,
+            isCreating
         } = this.props;
 
         return (
@@ -23,7 +23,7 @@ class EditorForm extends Component {
                 <form onSubmit={handleSubmit}>
                     <Modal.Header className="text-center">
                         <Modal.Title>
-                            Add new reward or edit
+                            {isCreating ? 'Add new reward' : 'Edit this reward'}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -56,22 +56,22 @@ class EditorForm extends Component {
                                 {errors.description}
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group controlId="price">
+                        <Form.Group controlId="amount">
                             <Form.Label>Pledge amount</Form.Label>
                             <InputGroup className="mb-3">
                                 <InputGroup.Prepend>
                                     <InputGroup.Text id="basic-$">$</InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
-                                    name="price"
+                                    name="amount"
                                     placeholder="10"
-                                    value={values.price}
+                                    value={values.amount}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    isInvalid={!!errors.price && touched.price}
+                                    isInvalid={!!errors.amount && touched.amount}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.price}
+                                    {errors.amount}
                                 </Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
@@ -81,7 +81,7 @@ class EditorForm extends Component {
                             Close
                         </Button>
                         <Button variant="success" type="submit" onClick={handleSubmit} disabled={isLoading}>
-                            {isLoading ? <Spinner animation="border" size="sm" /> : 'Create/Save'}
+                            {isLoading ? <Spinner animation="border" size="sm" /> : (isCreating ? 'Create' : 'Save')}
                         </Button>
                     </Modal.Footer>
                 </form>
