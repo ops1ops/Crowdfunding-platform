@@ -12,7 +12,7 @@ const NavigationBar = props => {
     const { isAuthorized, logout } = props;
 
     return (
-        <Navbar bg="light" expand="sm" className="px-3">
+        <Navbar expand="sm" className="px-3" className="border-bottom">
             <Navbar.Brand>Crowdfunding</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

@@ -27,7 +27,7 @@ class CampaignPage extends Component {
         console.log(campaign);
 
         return (
-            <div>
+            <div className="bg-light">
                 {error === 'Campaign doesnt exist' && <Redirect to="/404"/>}
                 {isDeleted && <Redirect to="/"/>}
                 <Container className="py-4">

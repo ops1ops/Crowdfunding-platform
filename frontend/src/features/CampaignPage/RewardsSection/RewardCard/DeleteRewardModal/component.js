@@ -48,11 +48,11 @@ class DeleteRewardModal extends Component {
                 <Modal show={show} onHide={this.handleClose}>
                     <Modal.Header className="text-center">
                         <Modal.Title>
-                            Are you sure you want to delete this campaign?
+                            Are you sure you want to delete this reward?
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
-                        This campaign will be deleted and you wont be able to restore it.
+                        This reward will be deleted and you wont be able to restore it.
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="outline-secondary" onClick={this.handleClose}>

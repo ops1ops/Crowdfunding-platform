@@ -5,7 +5,7 @@ const { jwtKey, confirmSecret } = require('../config/keys');
 const models = require('../db');
 const sendConfirmationEmail = require('../mailer/index');
 
-const { UserConfirm, User } = models;
+const { Confirms, User, Reward, Campaign } = models;
 
 exports.login = (req, res) => {
     const { credentials } = req.body;
@@ -61,7 +61,7 @@ exports.signup = (req, res) => {
                 const currentDate = new Date();
                 currentDate.setDate(currentDate.getDate() + 1);
                 console.log(currentDate);
-                UserConfirm
+                Confirms
                     .create({
                         token,
                         userId: user.id,
@@ -86,4 +86,42 @@ exports.signup = (req, res) => {
     } else {
         return res.status(400).send({ errors: 'Invalid data passed'})
     }
+};
+
+exports.getById = (req, res) => {
+    const { id } = req.params;
+
+    User
+        .findOne({
+            where: {
+                id
+            },
+            include: [
+                {
+                    model: Reward,
+                    as: 'rewards',
+                    include: [
+                        {
+                            model: Campaign,
+                            as: 'campaign',
+                            attributes: ['id', 'title']
+                        }
+                    ],
+                    attributes: ['name', 'description', 'createdAt']
+                }
+            ],
+            attributes: ['firstName', 'lastName', 'email', 'createdAt']
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ errors: 'User doesnt exist' });
+            }
+
+            return res.send({ user });
+        })
+        .catch(err => {
+            console.log("log: ", err);
+            return res.status(500).send({ errors: 'Unexpected error. Try again later' });
+        });
+
 };

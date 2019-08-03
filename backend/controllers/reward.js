@@ -1,6 +1,6 @@
 const models = require('../db');
 
-const { CampaignRewards, Campaign } = models;
+const { Reward, Campaign } = models;
 
 exports.createReward = (req, res) => {
     const { data } = req.body;
@@ -8,7 +8,7 @@ exports.createReward = (req, res) => {
 
 
     if (isValidData) {
-        CampaignRewards
+        Reward
             .create({
                 name: data.name,
                 campaignId: data.id,
@@ -30,7 +30,7 @@ exports.createReward = (req, res) => {
 exports.getAllByCampaign = (req, res) => {
     const { id } = req.params;
 
-    CampaignRewards
+    Reward
         .findAll({
             where: {
                 campaignId: id
@@ -65,7 +65,7 @@ exports.updateReward = (req, res) => {
         return res.status(400).send({ errors: 'Invalid data passed' });
     }
 
-    CampaignRewards
+    Reward
         .update(
             {
                 name: data.name,
@@ -95,7 +95,7 @@ exports.updateReward = (req, res) => {
 exports.deleteReward = (req, res) => {
     const { rewardId } = req.params;
 
-    CampaignRewards
+    Reward
         .destroy({
             where: {
                 id: rewardId,

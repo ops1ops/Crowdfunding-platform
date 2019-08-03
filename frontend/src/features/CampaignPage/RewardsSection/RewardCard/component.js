@@ -4,18 +4,51 @@ import { Button, Card } from 'react-bootstrap';
 import RewardEditorModal from '../../RewardEditorModal';
 import DeleteRewardModal from './DeleteRewardModal/component';
 import { Link } from 'react-router-dom';
+import { notification } from 'antd';
+import Spinner from 'react-bootstrap/Spinner';
 
 class RewardCard extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoadingSupport: false,
+        };
+    }
+
+    handleSupport = () => {
+        const { id, reward, supportCampaign } = this.props;
+
+        this.setState({ isLoadingSupport: true });
+            supportCampaign({ id, rewardId: reward.id })
+                .then(() => {
+                    this.setState({ isLoadingSupport: false });
+                    notification.success({
+                        message: 'Successfully supported',
+                        description:
+                            'Campaign was successfully supported. You can check reward in your profile',
+                    });
+                })
+                .catch(err => {
+                    this.setState({ isLoadingSupport: false });
+                    notification.error({
+                        message: 'Supporting error',
+                        description: err,
+                    });
+                });
+    };
+
     render() {
         const {
             reward,
             id,
             isUserCreator,
             deleteReward,
-            isLoading,
             isAuthorized,
+            isLoading,
         } = this.props;
-        console.log('REWARD', reward);
+        const { isLoadingSupport } = this.state;
+
         return (
             <Card className="my-3">
                 <Card.Body>
@@ -26,9 +59,14 @@ class RewardCard extends Component {
                         <Button
                             variant="primary"
                             className="w-100"
-                            onClick={console.log(1)}
+                            onClick={this.handleSupport}
+                            disabled={isLoadingSupport}
                         >
-                            Support
+                            {isLoadingSupport ? (
+                                <Spinner animation="border" size="sm" />
+                            ) : (
+                                'Support'
+                            )}
                         </Button>
                     ) : (
                         <Link to="/login" className="btn btn-primary w-100">
@@ -53,6 +91,7 @@ class RewardCard extends Component {
 }
 
 RewardCard.propTypes = {
+    supportCampaign: PropTypes.func.isRequired,
     reward: PropTypes.object.isRequired,
     isAuthorized: PropTypes.bool.isRequired,
     deleteReward: PropTypes.func.isRequired,

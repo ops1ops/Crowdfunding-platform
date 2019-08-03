@@ -1,6 +1,8 @@
 const models = require('../db');
+const Sequelize = require('sequelize');
 
-const { Category, Campaign, CampaignImages, User } = models;
+const { Category, Campaign, UserReward, Images, User, Reward } = models;
+const db = require('../db/setup');
 
 
 exports.createCampaign = (req, res) => {
@@ -81,7 +83,7 @@ exports.updateCampaign = (req, res) => {
                 )
                 .then(isUpdated => {
                     if (isUpdated) {
-                        CampaignImages
+                        Images
                             .destroy({
                                 where: {
                                     campaignId: data.id
@@ -89,7 +91,7 @@ exports.updateCampaign = (req, res) => {
                             })
                             .then(destroyed => {
                                 updateInfo.images.forEach(item => {
-                                    CampaignImages
+                                    Images
                                         .create({
                                             campaignId: data.id,
                                             url: item
@@ -166,7 +168,7 @@ exports.getCampaignById = (req, res) => {
                     attributes: ['id', 'firstName', 'lastName', 'email']
                 },
                 {
-                    model: CampaignImages,
+                    model: Images,
                     as: 'images',
                     attributes: ['id', 'url']
                 }
@@ -182,4 +184,71 @@ exports.getCampaignById = (req, res) => {
             console.log("log: ", err);
             return res.status(500).send({ errors: 'Unexpected error. Try again later'});
         })
+};
+
+
+exports.supportCampaign = (req, res) => {
+    const { userId } = req;
+    const { data } = req.body;
+    const isDataProvided = data && data.id && data.rewardId;
+
+    if (!isDataProvided) {
+        return res.status(400).send({ errors: 'Required data was not provided' })
+    }
+
+    Campaign
+        .findOne({
+            where: {
+                id: data.id
+            },
+            include: ['rewards']
+        })
+        .then(campaign => {
+            if (campaign) {
+                const rewardIndex = campaign.rewards.findIndex(item => item.id === data.rewardId);
+                if (rewardIndex === -1) {
+                    return res.status(404).send({ errors: 'Reward doesnt exist' });
+                }
+                return db.transaction(t => {
+                    return UserReward
+                        .create({
+                            userId,
+                            rewardId: data.rewardId
+                        },
+                            {transaction: t})
+                        .then(userReward => {
+                            const newAmount =
+                                Number(campaign.currentAmount) + Number(campaign.rewards[rewardIndex].amount);
+                            return Campaign
+                                .update(
+                                    {
+                                        currentAmount: newAmount,
+                                    },
+                                    { where: { id: data.id }},
+                                    {transaction: t}
+                                )
+                                .then(isUpdated => {
+                                    if (isUpdated) return newAmount;
+                                })
+                        });
+                }).then(newAmount => {
+                    if (newAmount) {
+                        return res.send({ newAmount });
+                    }
+                }).catch(err => {
+                    if (err.original && err.original.code === 'ER_DUP_ENTRY') {
+                        return res.status(400).send({ errors: 'You already have this reward' })
+                    }
+                    console.log("transaction log: ", err);
+                    return res.status(500).send({ errors: 'Unexpected error. Try again later' });
+                });
+            } else {
+                return res.status(404).send({ errors: 'Campaign doesnt exist' })
+            }
+        })
+        .catch(err => {
+            console.log("log: ", err);
+            return res.status(500).send({ errors: 'Unexpected error. Try again later' })
+        });
+
 };

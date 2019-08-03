@@ -5,7 +5,12 @@ import {
     GET_REWARDS,
     ADD_REWARD,
     UPDATE_REWARD,
-    DELETE_REWARD_SUCCESS, DELETE_REWARD_FAIL, DELETE_REWARD_REQUEST
+    DELETE_REWARD_SUCCESS,
+    DELETE_REWARD_FAIL,
+    DELETE_REWARD_REQUEST,
+    SUPPORT_CAMPAIGN,
+    SUPPORT_CAMPAIGN_SUCCESS,
+    SUPPORT_CAMPAIGN_FAIL
 } from './constants';
 import {UPDATE_REWARD_REQUEST} from "../RewardEditorModal/constants";
 import {updateRewardFail, updateRewardSuccess} from "../RewardEditorModal/actions";
@@ -27,6 +32,16 @@ export const deleteRewardSuccess = payload => ({
 
 export const deleteRewardFail = payload => ({
     type: DELETE_REWARD_FAIL,
+    payload,
+});
+
+export const supportCampaignSuccess = payload => ({
+    type: SUPPORT_CAMPAIGN_SUCCESS,
+    payload,
+});
+
+export const supportCampaignFail = payload => ({
+    type: SUPPORT_CAMPAIGN_FAIL,
     payload,
 });
 
@@ -54,6 +69,22 @@ export const getRewardsRequest = (id) => dispatch => {
             dispatch(getRewardsFail(err));
         });
 };
+
+export const supportCampaignRequest = data => dispatch =>
+    new Promise(function(resolve, reject) {
+        dispatch({ type: SUPPORT_CAMPAIGN });
+
+        api.campaigns
+            .supportCampaign(data)
+            .then(res => {
+                dispatch(supportCampaignSuccess(res.newAmount.toFixed(2)));
+                resolve(res);
+            })
+            .catch(err => {
+                dispatch(supportCampaignFail(err.response.data.errors));
+                reject(err.response.data.errors);
+            });
+    });
 
 export const deleteRewardRequest = (id) => dispatch =>
     new Promise(function(resolve, reject) {

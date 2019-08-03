@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-        return db.define('Campaign_rewards', {
+        return db.define('Rewards', {
         campaignId: {
             type: DataTypes.INTEGER,
         },

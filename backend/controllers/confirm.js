@@ -1,15 +1,15 @@
 const models = require('../db');
 const { CLIENT } = require('../config/config');
 
-const { UserConfirm, User } = models;
+const { Confirms, User } = models;
 
 const getDeletedUser = (deleteItem) => {
-    return UserConfirm
+    return Confirms
             .findOne({
                 where: deleteItem
             })
             .then(result => {
-                return UserConfirm
+                return Confirms
                         .destroy({
                             where: deleteItem
                         })

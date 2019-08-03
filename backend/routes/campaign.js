@@ -10,6 +10,7 @@ router.post('/campaigns', verifyJWT, campaignController.createCampaign);
 router.put('/campaign/:id', verifyJWT, verifyCreator, campaignController.updateCampaign);
 router.delete('/campaign/:id', verifyJWT, verifyCreator, campaignController.deleteCampaign);
 router.get('/campaign/:id', campaignController.getCampaignById);
+router.post('/campaign/:id/support', verifyJWT, campaignController.supportCampaign);
 
 router.get('/campaign/:id/rewards', rewardController.getAllByCampaign);
 router.post('/campaign/:id/rewards', verifyJWT, verifyCreator, rewardController.createReward);

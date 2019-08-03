@@ -11,12 +11,14 @@ class RewardSection extends Component {
 
     render() {
         const {
+            isLoading,
             rewards,
             id,
             isUserCreator,
             deleteReward,
-            isLoading,
+            isSupportLoading,
             isAuthorized,
+            supportCampaign,
         } = this.props;
 
         return (
@@ -26,11 +28,13 @@ class RewardSection extends Component {
                         <RewardCard
                             key={reward.id}
                             reward={reward}
+                            isSupportLoading={isSupportLoading}
                             isLoading={isLoading}
                             id={id}
                             isAuthorized={isAuthorized}
                             isUserCreator={isUserCreator}
                             deleteReward={deleteReward}
+                            supportCampaign={supportCampaign}
                         />
                     ))
                 ) : (
@@ -42,9 +46,11 @@ class RewardSection extends Component {
 }
 
 RewardSection.propTypes = {
+    supportCampaign: PropTypes.func.isRequired,
     getRewards: PropTypes.func.isRequired,
     deleteReward: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
+    isLoading: PropTypes.func.isRequired,
+    isSupportLoading: PropTypes.bool.isRequired,
     rewards: PropTypes.array.isRequired,
     id: PropTypes.number.isRequired,
     isAuthorized: PropTypes.bool.isRequired,

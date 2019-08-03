@@ -18,7 +18,6 @@ const initialState = {
 export const rewardsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_REWARDS:
-            // return { ...state, isLoading: true, error: '' };
             return { ...initialState, isLoading: true };
         case GET_REWARDS_FAIL:
             return {

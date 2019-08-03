@@ -1,0 +1,4 @@
+export const GET_USER_IFNO_SUCCESS = 'GET_USER_IFNO_SUCCESS';
+export const GET_USER_IFNO = 'GET_USER_IFNO';
+export const GET_USER_IFNO_FAIL = 'GET_USER_IFNO_FAIL';
+

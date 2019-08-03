@@ -10,6 +10,7 @@ import SignupPage from '../features/SignupPage/component';
 import Home from '../features/Home/component';
 import ErrorPage from '../features/ErrorPage/component';
 import CampaignPage from "../features/CampaignPage";
+import ProfilePage from "../features/ProfilePage";
 
 const Router = () => {
     return (
@@ -21,6 +22,7 @@ const Router = () => {
             <Route exact path="/campaigns" component={Companies} />
             <PrivateRoute exact path="/campaigns/create" component={CreateCampaignPage} />
             <PrivateRoute exact path="/campaign/edit/:id" component={CreateCampaignPage} />
+            <PrivateRoute exact path="/profile" component={ProfilePage} />
             <Route exact path="/error/:message" component={ErrorPage} />
             <Route path="/404" component={NotFound} />
             <Redirect from="*" to="/404" />
