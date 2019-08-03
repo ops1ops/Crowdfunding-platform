@@ -107,7 +107,7 @@ exports.getById = (req, res) => {
                             attributes: ['id', 'title']
                         }
                     ],
-                    attributes: ['name', 'description', 'createdAt']
+                    attributes: ['id', 'name', 'description',]
                 }
             ],
             attributes: ['firstName', 'lastName', 'email', 'createdAt']

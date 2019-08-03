@@ -53,6 +53,8 @@ class DeleteRewardModal extends Component {
                     </Modal.Header>
                     <Modal.Body className="text-center">
                         This reward will be deleted and you wont be able to restore it.
+                        It will be also deleted from users who has already supported your campaign
+                        by this reward.
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="outline-secondary" onClick={this.handleClose}>

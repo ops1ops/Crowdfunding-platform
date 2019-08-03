@@ -3,33 +3,55 @@ import './styles.css';
 import { PropTypes } from 'prop-types';
 import { Button, Carousel, Col, Container, Row } from 'react-bootstrap';
 import YouTube from 'react-youtube';
-import { Progress, Rate, Tabs, Modal } from 'antd';
+import { Progress, Tabs, Rate } from 'antd';
 import getVideoId from '../../utils/getVideoId';
 import getLeftDays from '../../utils/getLeftDays';
 import { Link, Redirect } from 'react-router-dom';
 import DeleteCampaignModal from './DeleteCampaignModal/component';
-import RewardEditorModal from "./RewardEditorModal";
-import RewardSection from "./RewardsSection";
+import RewardEditorModal from './RewardEditorModal';
+import RewardSection from './RewardsSection';
 
 const { TabPane } = Tabs;
 
 class CampaignPage extends Component {
-
     componentDidMount() {
-        const { id } = this.props.match.params;
-
-        this.props.getCampaign(id);
+        const { match, user } = this.props;
+        const { id } = match.params;
+        const data = {
+            id,
+            userId: user.id ? user.id : 0,
+        };
+        console.log('DATA', data);
+        this.props.getCampaign(data);
     }
 
+    handleRate = (value) => {
+        const { rateCampaign, campaign } = this.props;
+        const data = {
+            id: campaign.id,
+            rating: value,
+        };
+
+        rateCampaign(data);
+    };
+
     render() {
-        const { campaign, user, deleteCampaign, isLoading, error, isDeleted, match } = this.props;
+        const {
+            campaign,
+            user,
+            deleteCampaign,
+            isLoading,
+            error,
+            isDeleted,
+            rateCampaign,
+            match,
+        } = this.props;
         const isUserCreator = campaign.user && user && user.id === campaign.user.id;
-        console.log(campaign);
 
         return (
             <div className="bg-light">
-                {error === 'Campaign doesnt exist' && <Redirect to="/404"/>}
-                {isDeleted && <Redirect to="/"/>}
+                {error === 'Campaign doesnt exist' && <Redirect to="/404" />}
+                {isDeleted && <Redirect to="/" />}
                 <Container className="py-4">
                     <h1 className="text-center">{campaign.title}</h1>
                     <h3 className="text-center pb-4">
@@ -38,7 +60,7 @@ class CampaignPage extends Component {
                     <Row>
                         <Col md={8}>
                             <Carousel
-                                className="carousel"
+                                className="carousel mb-2"
                                 interval={null}
                                 controls={false}
                             >
@@ -69,8 +91,17 @@ class CampaignPage extends Component {
                         </Col>
                         <Col md={4}>
                             <div className="d-flex justify-content-between">
-                                <Rate disabled={this.props.isAuthorized} />
-                                <span>avg rate</span>
+                                <Rate
+                                    allowClear={false}
+                                    value={campaign.ratedByUser}
+                                    onChange={this.handleRate}
+                                    disabled={!user.isAuthorized}
+                                />
+                                <span>
+                                    {campaign.avgRate === 0
+                                        ? 'No ratings yet'
+                                        : `Rate: ${campaign.avgRate}`}
+                                </span>
                             </div>
                             <Progress
                                 className="py-2"
@@ -128,9 +159,15 @@ class CampaignPage extends Component {
                                             Select reward
                                         </h4>
                                         {isUserCreator && (
-                                            <RewardEditorModal id={match.params.id} isCreating="true"/>
+                                            <RewardEditorModal
+                                                id={match.params.id}
+                                                isCreating="true"
+                                            />
                                         )}
-                                        <RewardSection id={match.params.id} isUserCreator={isUserCreator}/>
+                                        <RewardSection
+                                            id={match.params.id}
+                                            isUserCreator={isUserCreator}
+                                        />
                                     </Col>
                                 </Row>
                             </Container>
@@ -151,6 +188,7 @@ class CampaignPage extends Component {
 CampaignPage.propTypes = {
     isDeleted: PropTypes.bool.isRequired,
     deleteCampaign: PropTypes.func.isRequired,
+    rateCampaign: PropTypes.func.isRequired,
     getCampaign: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
     campaign: PropTypes.object.isRequired,

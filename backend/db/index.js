@@ -10,6 +10,18 @@ models.Reward = require('./models/Rewards')(db, Sequelize);
 models.Category = require('./models/Category')(db, Sequelize);
 models.Confirms = require('./models/Confirms')(db, Sequelize);
 models.UserReward = require('./models/UserReward')(db, Sequelize);
+models.Rating = require('./models/Rating')(db, Sequelize);
+
+models.User.belongsToMany(models.Campaign, {
+    as: 'ratedCampaigns',
+    through: { model: models.Rating},
+    foreignKey: 'userId',
+});
+models.Campaign.belongsToMany(models.User, {
+    as: 'ratedBy',
+    through: { model: models.Rating},
+    foreignKey: 'campaignId',
+});
 
 models.Reward.belongsToMany(models.User, {
     as: 'users',

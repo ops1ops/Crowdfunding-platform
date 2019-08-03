@@ -1,8 +1,9 @@
 const models = require('../db');
-const Sequelize = require('sequelize');
-
-const { Category, Campaign, UserReward, Images, User, Reward } = models;
+const { getAvgRate } = require('../utils/getAvgRate');
+const { getAvgRating } = require('../utils/getAvgRating');
 const db = require('../db/setup');
+
+const { Category, Campaign, UserReward, Images, User, Rating } = models;
 
 
 exports.createCampaign = (req, res) => {
@@ -150,6 +151,8 @@ exports.deleteCampaign = (req, res) => {
 
 exports.getCampaignById = (req, res) => {
     const { id } = req.params;
+    const { userId } = req.params;
+    console.log(userId);
 
     Campaign
         .findOne({
@@ -168,6 +171,14 @@ exports.getCampaignById = (req, res) => {
                     attributes: ['id', 'firstName', 'lastName', 'email']
                 },
                 {
+                    model: User,
+                    as: 'ratedBy',
+                    attributes: ['id'],
+                    through: {
+                        attributes: ['rating'],
+                    }
+                },
+                {
                     model: Images,
                     as: 'images',
                     attributes: ['id', 'url']
@@ -176,7 +187,19 @@ exports.getCampaignById = (req, res) => {
         })
         .then(campaign => {
             if (campaign) {
-                return res.json({ campaign });
+                const avgRate = getAvgRate(campaign);
+                const ratedByCount = campaign.ratedBy.length;
+                const ratedBy = campaign.ratedBy.find(item => {
+                    if (Number(item.id) === Number(userId)) return item;
+                });
+
+                return res.json({
+                    campaign,
+                    avgRate,
+                    ratedByCount,
+                    ratedBy: ratedBy ? ratedBy.Rating.rating : 0
+
+                });
             }
             return res.status(404).send({ errors: 'Campaign doesnt exist' });
         })
@@ -249,6 +272,52 @@ exports.supportCampaign = (req, res) => {
         .catch(err => {
             console.log("log: ", err);
             return res.status(500).send({ errors: 'Unexpected error. Try again later' })
+        });
+
+};
+
+exports.rateCampaign = (req, res) => {
+    const { data } = req.body;
+    const { userId } = req;
+
+    Rating
+        .findOrCreate({
+            where: {
+                userId,
+                campaignId: data.id
+            },
+            defaults: { rating: data.rating }
+        })
+        .then(([rating, created]) => {
+            if (!created) {
+                Rating
+                    .update(
+                        {
+                            rating: data.rating,
+                        },
+                        {
+                            where: {
+                                userId,
+                                campaignId: data.id
+                            }
+                        }
+                    )
+                    .then(isUpdated => {
+                        if (!isUpdated) return res.status(400).send({ errors: 'Could not rate campaign' });
+                        getAvgRating(data.id).then(avgRate => {
+                            return res.send({ avgRate, rating: data.rating });
+                        })
+                    })
+            } else {
+                getAvgRating(data.id).then(avgRate => {
+                    return res.send({ avgRate, rating: data.rating });
+                })
+            }
+
+        })
+        .catch(err => {
+            console.log("log: ", err);
+            return res.status(500).send({ errors: 'Unexpected error. Try again later' });
         });
 
 };

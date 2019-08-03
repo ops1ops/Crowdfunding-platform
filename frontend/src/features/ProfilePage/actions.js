@@ -1,16 +1,4 @@
-import {
-    GET_CAMPAIGN_SUCCESS,
-    GET_CAMPAIGN_FAIL,
-    GET_CAMPAIGN,
-    DELETE_CAMPAIGN,
-    CLEAR_ERRORS,
-    DELETE_CAMPAIGN_SUCCESS,
-    DELETE_CAMPAIGN_FAIL,
-    RESET_DELETING,
-    GET_USER_IFNO_SUCCESS,
-    GET_USER_IFNO_FAIL,
-    GET_USER_IFNO
-} from './constants';
+import { GET_USER_IFNO_SUCCESS, GET_USER_IFNO_FAIL, GET_USER_IFNO } from './constants';
 import api from '../../services/api';
 
 export const getUserInfoSuccess = payload => ({
@@ -23,17 +11,15 @@ export const getUserInfoFail = payload => ({
     payload,
 });
 
-
 export const getUserInfoRequest = id => dispatch => {
     dispatch({ type: GET_USER_IFNO });
 
     api.user
         .getById(id)
-        .then(campaign => {
-            dispatch(getUserInfoSuccess(campaign));
+        .then(userInfo => {
+            dispatch(getUserInfoSuccess(userInfo.user));
         })
         .catch(err => {
             dispatch(getUserInfoFail(err));
         });
 };
-

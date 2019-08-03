@@ -1,6 +1,7 @@
 import { USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS } from './constants';
 import api from '../../services/api';
-import setToken from "../../utils/setToken";
+import setToken from '../../utils/setToken';
+import { clearRatedByUser } from '../CampaignPage/actions';
 
 export const userLoginSuccess = user => ({
     type: USER_LOGIN_SUCCESS,
@@ -22,4 +23,5 @@ export const userLogout = () => dispatch => {
     localStorage.removeItem('userJWT');
     setToken();
     dispatch(userLogoutSuccess());
+    dispatch(clearRatedByUser());
 };

@@ -5,17 +5,20 @@ const Campaign = models.Campaign;
 const { Category, Reward } = models;
 
 router.get('/test', (req, res) => {
-    User
+    Campaign
         .findAll({
             include: [
                 {
-                    model: Reward,
-                    as: 'rewards',
-                    include: ['campaign']
+                    model: User,
+                    as: 'ratedBy',
+                    attributes: ['id'],
+                    through: {
+                        where: { userId: 47 },
+                    }
                 },
             ]
         })
-        .then(users => res.send({users}))
+        .then(users => res.send({users, getCampaigns: User.getCampaigns}))
         .catch(err => console.log(err))
 });
 

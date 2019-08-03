@@ -4,7 +4,13 @@ import {
     GET_CAMPAIGN,
     DELETE_CAMPAIGN,
     CLEAR_ERRORS,
-    DELETE_CAMPAIGN_SUCCESS, DELETE_CAMPAIGN_FAIL, RESET_DELETING
+    DELETE_CAMPAIGN_SUCCESS,
+    DELETE_CAMPAIGN_FAIL,
+    RESET_DELETING,
+    RATE_CAMPAIGN,
+    RATE_CAMPAIGN_FAIL,
+    RATE_CAMPAIGN_SUCCESS,
+    CLEAR_RATED_BY_USER,
 } from './constants';
 import api from '../../services/api';
 
@@ -36,17 +42,50 @@ export const deleteCampaignFail = payload => ({
     payload,
 });
 
-export const getCampaignRequest = id => dispatch => {
+export const rateCampaignSuccess = payload => ({
+    type: RATE_CAMPAIGN_SUCCESS,
+    payload,
+});
+
+export const rateCampaignFail = payload => ({
+    type: RATE_CAMPAIGN_FAIL,
+    payload,
+});
+
+export const clearRatedByUser = () => ({
+    type: CLEAR_RATED_BY_USER,
+});
+
+export const getCampaignRequest = data => dispatch => {
     dispatch({ type: GET_CAMPAIGN });
 
     api.campaigns
-        .getById(id)
-        .then(campaign => {
+        .getById(data)
+        .then(res => {
+            const campaign = {
+                ...res.campaign,
+                avgRate: res.avgRate,
+                ratedByUser: res.ratedBy,
+                ratedByAllCount: res.ratedByCount,
+            };
+
             dispatch(getCampaignSuccess(campaign));
         })
         .catch(err => {
             dispatch(getCampaignFail(err));
-            dispatch(clearErrors());
+        });
+};
+
+export const rateCampaignRequest = data => dispatch => {
+    dispatch({ type: RATE_CAMPAIGN });
+
+    api.campaigns
+        .rateCampaign(data)
+        .then(res => {
+            dispatch(rateCampaignSuccess(res));
+        })
+        .catch(err => {
+            dispatch(rateCampaignFail(err.response.data.errors));
         });
 };
 
