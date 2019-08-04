@@ -89,17 +89,21 @@ export const rateCampaignRequest = data => dispatch => {
         });
 };
 
-export const deleteCampaignRequest = id => dispatch => {
-    dispatch({ type: DELETE_CAMPAIGN });
+export const deleteCampaignRequest = id => dispatch =>
+    new Promise(function(resolve, reject) {
+        dispatch({ type: DELETE_CAMPAIGN });
 
-    api.campaigns
-        .delete(id)
-        .then(data => {
-            dispatch(deleteCampaignSuccess(data));
-            dispatch(resetDeleting());
-        })
-        .catch(err => {
-            dispatch(deleteCampaignFail(err));
-            dispatch(clearErrors());
-        });
-};
+        api.campaigns
+            .delete(id)
+            .then(data => {
+                dispatch(deleteCampaignSuccess(data));
+                dispatch(resetDeleting());
+                resolve(data);
+            })
+            .catch(err => {
+                dispatch(deleteCampaignFail(err));
+                dispatch(clearErrors());
+                reject(err);
+            });
+    });
+

@@ -4,7 +4,7 @@ const { verifyJWT } =  require("../middlewares/verifyJWT");
 
 
 router.post('/users', controller.signup);
-router.get('/users/:id', verifyJWT, controller.getById);
+router.get('/user/:id', verifyJWT, controller.getById);
 
 
 module.exports = router;

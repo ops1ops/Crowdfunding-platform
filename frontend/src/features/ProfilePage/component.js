@@ -7,6 +7,7 @@ import { Avatar, Tabs } from 'antd';
 import getFullName from '../../utils/getFullName';
 
 import RewardsTab from './RewardsTab/component';
+import CapaignsTab from './CampaignsTab/component';
 
 const { TabPane } = Tabs;
 
@@ -18,61 +19,74 @@ class ProfilePage extends Component {
     }
 
     render() {
-        const { userInfo, isLoading } = this.props;
-        console.log(userInfo);
+        const { userInfo, deleteCampaign, isLoading } = this.props;
+
         return (
             <>
-                <>
-                    <div className="bg-light">
-                        <Container>
-                            <Row>
-                                <Col sm={12} className="">
-                                    <div className="Profile-flex pt-5 pb-3">
-                                        <Avatar
-                                            size={120}
-                                            icon="user"
-                                            className="Avatar-profile"
-                                        />
-                                        <h1>
-                                            {getFullName(
+                <div className="bg-light">
+                    <Container>
+                        <Row>
+                            <Col sm={12} className="">
+                                <div className="Profile-flex pt-5 pb-3">
+                                    <Avatar
+                                        size={120}
+                                        icon="user"
+                                        className="Avatar-profile"
+                                    />
+                                    <h1>
+                                        {userInfo.firstName &&
+                                            userInfo.lastName &&
+                                            getFullName(
                                                 userInfo.firstName,
                                                 userInfo.lastName
                                             )}
-                                        </h1>
-                                        <p>
-                                            <span className="mr-3">
-                                                Rewards{': '}
-                                                {userInfo.rewards
-                                                    ? userInfo.rewards.length
-                                                    : ''}
-                                            </span>
-                                            <span>
-                                                Joined{' '}
-                                                {moment(userInfo.createdAt).format(
-                                                    'MMM YYYY'
-                                                )}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </div>
-                    <div>
-                        <Tabs
-                            className="border-top pb-5 text-center"
-                            defaultActiveKey="1"
-                            size="large"
-                        >
-                            <TabPane tab="Privacy" key="1">
-                                123
-                            </TabPane>
-                            <TabPane tab="Rewards" key="2">
-                                <RewardsTab rewards={userInfo.rewards}/>
-                            </TabPane>
-                        </Tabs>
-                    </div>
-                </>
+                                    </h1>
+                                    <p>
+                                        <span>
+                                            Rewards{': '}
+                                            {userInfo.rewards
+                                                ? userInfo.rewards.length
+                                                : ''}
+                                        </span>
+                                        <span className="mx-4">
+                                            Joined{' '}
+                                            {moment(userInfo.createdAt).format(
+                                                'MMM YYYY'
+                                            )}
+                                        </span>
+                                        <span className="mr-3">
+                                            Campaigns{': '}
+                                            {userInfo.campaigns
+                                                ? userInfo.campaigns.length
+                                                : ''}
+                                        </span>
+                                    </p>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+                <div>
+                    <Tabs
+                        className="border-top pb-5 text-center"
+                        defaultActiveKey="1"
+                        size="large"
+                    >
+                        <TabPane tab="Privacy" key="1">
+                            123
+                        </TabPane>
+                        <TabPane tab="Your rewards" key="2">
+                            <RewardsTab rewards={userInfo.rewards} />
+                        </TabPane>
+                        <TabPane tab="Your campaigns" key="3">
+                            <CapaignsTab
+                                campaigns={userInfo.campaigns}
+                                deleteCampaign={deleteCampaign}
+                                isLoading={isLoading}
+                            />
+                        </TabPane>
+                    </Tabs>
+                </div>
             </>
         );
     }
@@ -84,6 +98,7 @@ ProfilePage.propTypes = {
     user: PropTypes.object.isRequired,
     userInfo: PropTypes.object.isRequired,
     getUserInfo: PropTypes.func.isRequired,
+    deleteCampaign: PropTypes.func.isRequired,
 };
 
 export default ProfilePage;

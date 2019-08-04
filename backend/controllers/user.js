@@ -111,8 +111,14 @@ exports.getById = (req, res) => {
                             attributes: ['id', 'title']
                         }
                     ],
-                    attributes: ['id', 'name', 'description',]
-                }
+                    attributes: ['id', 'name', 'description', 'amount']
+                },
+                {
+                    model: Campaign,
+                    as: 'campaigns',
+                    include: ['category'],
+                    attributes: ['id', 'title', 'currentAmount', 'goalAmount', 'createdAt', 'expirationDate']
+                },
             ],
             attributes: ['firstName', 'lastName', 'email', 'createdAt']
         })

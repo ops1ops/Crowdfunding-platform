@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
-import {notification} from "antd";
-import Spinner from "react-bootstrap/Spinner";
+import {Icon, notification} from 'antd';
+import Spinner from 'react-bootstrap/Spinner';
 
 class DeleteCampaignModal extends Component {
     constructor(props) {
@@ -22,23 +22,27 @@ class DeleteCampaignModal extends Component {
     };
 
     handleSubmit = () => {
-        const { deleteCampaign, campaign } = this.props;
+        const { deleteCampaign, id } = this.props;
 
-        deleteCampaign(campaign.id);
+        deleteCampaign(id).then(() => this.handleClose()).catch(err => console.log(err));
     };
 
     render() {
         const { show } = this.state;
-        const { isLoading, error, campaign } = this.props;
+        const { isLoading, error, buttonVariant } = this.props;
 
         return (
             <>
                 {error &&
-                notification.error({
-                    message: 'Submitting error',
-                    description: error,
-                })}
-                <Button variant="outline-danger w-25" onClick={this.handleShow} disabled={isLoading}>
+                    notification.error({
+                        message: 'Submitting error',
+                        description: error,
+                    })}
+                <Button
+                    className={buttonVariant}
+                    variant="danger"
+                    onClick={this.handleShow}
+                >
                     Delete
                 </Button>
 
@@ -55,8 +59,16 @@ class DeleteCampaignModal extends Component {
                         <Button variant="outline-secondary" onClick={this.handleClose}>
                             Close
                         </Button>
-                        <Button variant="danger" onClick={this.handleSubmit} disabled={isLoading}>
-                            {isLoading ? <Spinner animation="border" size="sm" /> : 'Delete'}
+                        <Button
+                            variant="danger"
+                            onClick={this.handleSubmit}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <Spinner animation="border" size="sm" />
+                            ) : (
+                                'Delete'
+                            )}
                         </Button>
                     </Modal.Footer>
                 </Modal>
@@ -68,7 +80,8 @@ class DeleteCampaignModal extends Component {
 DeleteCampaignModal.propTypes = {
     error: PropTypes.string.isRequired,
     deleteCampaign: PropTypes.func.isRequired,
-    campaign: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
+    buttonVariant: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
 };
 

@@ -15,7 +15,6 @@ function RewardsTab(props) {
             render: (text, record) => (
                 <Link to={`/campaign/${record.campaignId}`}>{text}</Link>
             ),
-            width: '25%'
         },
         {
             title: 'Name',
@@ -25,7 +24,10 @@ function RewardsTab(props) {
             title: 'Description',
             dataIndex: 'description',
         },
-
+        {
+            title: 'Amount',
+            dataIndex: 'amount',
+        },
         {
             title: 'Received at',
             dataIndex: 'createdAt',
@@ -41,17 +43,20 @@ function RewardsTab(props) {
             campaign: reward.campaign.title,
             name: reward.name,
             description: reward.description,
+            amount: reward.amount,
             date: reward.user_rewards.createdAt,
             createdAt: moment(reward.user_rewards.createdAt).format('DD MMM YYYY'),
         };
     });
 
     return (
-        <Container>
+        <Container className="px-5">
             <Table
+                al
                 columns={columns}
                 dataSource={data}
                 className="border mt-2"
+                size="middle"
                 pagination={false}
             />
         </Container>

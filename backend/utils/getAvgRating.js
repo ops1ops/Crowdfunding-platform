@@ -14,7 +14,7 @@ exports.getAvgRating = (campaignId) =>
             if (ratings) {
                 const sumRate = ratings.reduce((prev, cur) => prev + cur.rating, 0);
 
-                return sumRate / ratings.length;
+                return (sumRate / ratings.length).toFixed(1);
             }
             return 0;
-        })
+        });

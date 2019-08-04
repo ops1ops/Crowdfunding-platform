@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ProfilePage from './component';
-import { getUserInfoRequest } from './actions';
+import { deleteCampaignRequest, getUserInfoRequest } from './actions';
 
 export { userPageReducer } from './reducer';
 
@@ -13,6 +13,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => ({
     getUserInfo: getUserInfoRequest,
+    deleteCampaign: deleteCampaignRequest,
 });
 
 export default connect(

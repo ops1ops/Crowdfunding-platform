@@ -14,7 +14,6 @@ class SignupFormContainer extends React.Component {
         };
         this.onCloseSuccessAlert = this.onCloseAlert.bind(this, { serverSuccessMessage: '' });
         this.onCloseErrorAlert = this.onCloseAlert.bind(this, { serverErrors: {} });
-
     }
 
     onCloseAlert = alertState => {
@@ -30,6 +29,7 @@ class SignupFormContainer extends React.Component {
                     serverErrors: {},
                 });
                 actions.setSubmitting(false);
+                actions.resetForm();
             })
             .catch(err => {
                 this.setState({

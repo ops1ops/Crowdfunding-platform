@@ -5,7 +5,7 @@ export default {
         login: credentials =>
             axios.post('/api/auth', { credentials }).then(res => res.data),
         signup: userData => axios.post('/api/users', { userData }),
-        getById: id => axios.get(`/api/users/${id}`).then(res => res.data),
+        getById: id => axios.get(`/api/user/${id}`).then(res => res.data),
     },
     categories: {
         getAll: () => axios.get('/api/categories').then(res => res.data),
