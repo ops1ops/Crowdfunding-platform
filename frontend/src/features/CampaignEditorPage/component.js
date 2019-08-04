@@ -9,7 +9,15 @@ import * as moment from 'moment';
 
 class CampaignEditorPage extends React.Component {
     componentDidMount() {
-        const { match, getCampaign, getCategories, categories, setEditing, setCreating, user } = this.props;
+        const {
+            match,
+            getCampaign,
+            getCategories,
+            categories,
+            setEditing,
+            setCreating,
+            user,
+        } = this.props;
         if (categories.length === 0) getCategories();
         if (match.params.id) {
             setEditing();
@@ -34,7 +42,6 @@ class CampaignEditorPage extends React.Component {
     }
 
     render() {
-        // const { isCreating } = this.state;
         const {
             isCreating,
             categories,
@@ -56,57 +63,56 @@ class CampaignEditorPage extends React.Component {
                 {campaignResponse.id ? (
                     <Redirect to={`/campaign/${campaignResponse.id}`} />
                 ) : null}
-                <Formik
-                    enableReinitialize
-                    initialValues={
-                        (campaign && campaign.images && !isCreating)
-                            ? {
-                                  title: campaign.title,
-                                  category:
-                                      campaign.category && !isCreating
-                                          ? campaign.category.name
-                                          : '',
-                                  description: campaign.description,
-                                  link: campaign.youtubeLink,
-                                  images: campaign.images.map(item => ({
-                                      url: item.url,
-                                      uid: item.id,
-                                  })),
-                                  goalAmount: campaign.goalAmount,
-                                  expirationDate: moment(campaign.expirationDate)._d,
-                              }
-                            : {
-                                  title: '',
-                                  category: categories ? categories[0] : null,
-                                  description: '',
-                                  link: '',
-                                  images: [],
-                                  goalAmount: 0,
-                                  expirationDate: new Date(),
-                              }
-                    }
-                    validationSchema={validationSchema}
-                    onSubmit={(values, actions) => {
-                        console.log(values);
-                        if (isCreating) {
-                            console.log('cr');
-                            createCampaign(values);
-                        } else {
-                            updateCampaign({
-                                id: campaign.id,
-                                updateInfo: { ...values },
-                            });
+                {(isCreating || campaign.description) && (
+                    <Formik
+                        enableReinitialize
+                        initialValues={
+                            !isCreating
+                                ? {
+                                      title: campaign.title,
+                                      category: campaign.category.name,
+                                      description: campaign.description,
+                                      link: campaign.youtubeLink,
+                                      images: campaign.images.map(item => ({
+                                          url: item.url,
+                                          uid: item.id,
+                                      })),
+                                      goalAmount: campaign.goalAmount,
+                                      expirationDate: moment(campaign.expirationDate)._d,
+                                  }
+                                : {
+                                      title: '',
+                                      category: categories ? categories[0] : null,
+                                      description: '',
+                                      link: '',
+                                      images: [],
+                                      goalAmount: 0,
+                                      expirationDate: new Date(),
+                                  }
                         }
-                        actions.setSubmitting(false);
-                    }}
-                    render={formikProps => (
-                        <CreateCampaignForm
-                            {...formikProps}
-                            categoriesArr={categories}
-                            isLoading={isLoading}
-                        />
-                    )}
-                />
+                        validationSchema={validationSchema}
+                        onSubmit={(values, actions) => {
+                            console.log('FORMIK', values);
+                            if (isCreating) {
+                                console.log('cr');
+                                createCampaign(values);
+                            } else {
+                                updateCampaign({
+                                    id: campaign.id,
+                                    updateInfo: { ...values },
+                                });
+                            }
+                            actions.setSubmitting(false);
+                        }}
+                        render={formikProps => (
+                            <CreateCampaignForm
+                                {...formikProps}
+                                categoriesArr={categories}
+                                isLoading={isLoading}
+                            />
+                        )}
+                    />
+                )}
             </div>
         );
     }

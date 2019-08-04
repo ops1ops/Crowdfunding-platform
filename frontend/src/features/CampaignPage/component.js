@@ -13,6 +13,7 @@ import RewardEditorModal from './RewardEditorModal';
 import RewardSection from './RewardsSection';
 import CommentsTab from './CommentsTab/component';
 import { markDownHtmlConverter } from '../../utils/markDownConverter';
+import parse from 'html-react-parser';
 
 const { TabPane } = Tabs;
 const { markDownToHtml } = markDownHtmlConverter;

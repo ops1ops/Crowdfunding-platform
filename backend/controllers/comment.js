@@ -4,10 +4,13 @@ const models = require('../db');
 const { Comment, User } = models;
 
 exports.connectCommentsSocket = server => {
-    const io = socket(server);
-
+    const serverSocket = socket(server);
+    const io = serverSocket.of('/comments');
     io.on('connection', socket => {
         console.log(`User connected.`);
+        socket.on("join", campaignId => {
+            console.log("User joined from campaign", campaignId);
+            socket.join(campaignId);
             socket.on('addComment', data => {
                 console.log(data.text);
                 if (data.text) {
@@ -31,12 +34,14 @@ exports.connectCommentsSocket = server => {
                                         data.user.firstName = user.firstName;
                                         data.user.lastName = user.lastName;
                                         data.createdAt = comment.createdAt;
-                                        io.emit('commentAdded', data);
+                                        io.to(campaignId).emit('commentAdded', data);
                                     }
                                 })
                         });
                 }
             });
+        })
+
 
         socket.on('disconnect', () => {
             console.log('User disconnected');

@@ -12,12 +12,11 @@ function getBase64(file) {
     });
 }
 
-const props = {
+const draggerProps = {
     name: 'file',
     multiple: true,
     listType: 'picture-card',
-    action:
-        'https://api.cloudinary.com/v1_1/ops1ops/upload?upload_preset=k6kk7wug',
+    action: 'https://api.cloudinary.com/v1_1/ops1ops/upload?upload_preset=k6kk7wug',
     accept: 'image/*',
 };
 
@@ -33,16 +32,24 @@ class ImageUploader extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.values.images)
-        this.props.setFieldValue('images', this.props.values.images);
+        const { values, setFieldValue } = this.props;
+        console.log("PROPS", this.props);
+        if (values.images.length) {
+            const imagesUrl = values.images.map(item => item.url);
+            console.log("TEST!!!!", imagesUrl);
+            setFieldValue('images', imagesUrl);
+        }
     }
 
     handleChange = info => {
-        console.log("info", info);
+        console.log('info', info);
         const { status } = info.file;
         if (status !== 'uploading') {
-            const imagesUrl = info.fileList.map(item => (item.response ? item.response.url : item.url));
+            const imagesUrl = info.fileList.map(item =>
+                item.response ? item.response.url : item.url
+            );
             this.props.setFieldValue('images', imagesUrl);
+            console.log("PROPS", this.props);
         }
     };
 
@@ -66,7 +73,7 @@ class ImageUploader extends React.Component {
         return (
             <div>
                 <Dragger
-                    {...props}
+                    {...draggerProps}
                     onPreview={this.handlePreview}
                     onChange={this.handleChange}
                     defaultFileList={images}

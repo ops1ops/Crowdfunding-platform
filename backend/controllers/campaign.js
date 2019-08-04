@@ -95,7 +95,7 @@ exports.updateCampaign = (req, res) => {
                                     Images
                                         .create({
                                             campaignId: data.id,
-                                            url: item
+                                            url: item.url ? item.url : item
                                         })
                                         .then(image => console.log(image))
                                         .catch(err => console.log(err));

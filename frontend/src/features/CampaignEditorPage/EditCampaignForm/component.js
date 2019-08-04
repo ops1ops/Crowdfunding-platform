@@ -69,6 +69,7 @@ export const CreateCampaignForm = props => {
                 render={
                     <div>
                         <SimpleMDE
+                            name="description"
                             className="Mde"
                             id="your-custom-id"
                             label="Description"
@@ -76,8 +77,9 @@ export const CreateCampaignForm = props => {
                                 spellChecker: false,
                             }}
                             onChange={e => setFieldValue('description', e)}
-                            value={values.description}
+                            value={values ? values.description : null}
                         />
+
                         <p className="text-danger">
                             <small>{errors.description}</small>
                         </p>

@@ -2,6 +2,14 @@
     height: 400px !important;
 }
 
+#description {
+    word-wrap: break-word;
+}
+
+#description img {
+    max-width: 100%;
+}
+
 .carousel-image {
     height: 400px !important;
 }
