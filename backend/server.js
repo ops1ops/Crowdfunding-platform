@@ -6,6 +6,7 @@ const userRoutes = require('./routes/user');
 const confirmRoute = require('./routes/confirm');
 const categoryRoutes = require('./routes/category');
 const testRoute = require('./routes/test');
+const { connectCommentsSocket } = require('./controllers/comment');
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(function (req, res, next) {
 });
 app.use('/api', campaignRoutes, authRoutes, userRoutes, confirmRoute, categoryRoutes, testRoute);
 
-app.listen(PORT, () => console.log(`Server started on ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server started on ${PORT}`));
+
+connectCommentsSocket(server);
 
 module.exports = app;

@@ -1,0 +1,11 @@
+.Comment span {
+    font-size: 14px !important;
+}
+
+.ant-comment-content-author-time {
+    color: rgba(0,0,0,0.3) !important;
+}
+
+.Container {
+    max-width: 720px !important;
+}

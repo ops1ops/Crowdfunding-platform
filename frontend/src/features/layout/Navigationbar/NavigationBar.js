@@ -22,11 +22,6 @@ const NavigationBar = props => {
                             Home
                         </Nav.Link>
                     </NavItem>
-                    <NavItem eventkey={2} href="/companies">
-                        <Nav.Link as={Link} to="/companies">
-                            Campaigns
-                        </Nav.Link>
-                    </NavItem>
                 </Nav>
                 {/*<Search />*/}
                 {isAuthorized ? (

@@ -23,7 +23,12 @@ exports.login = (req, res) => {
                     if (user.blocked) {
                         return res.status(403).json({ errors: 'Your account has been blocked'})
                     }
-                    const token = jwt.sign({ id: user.id }, jwtKey);
+                    const token = jwt.sign({
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                    }, jwtKey);
+
                     return res.json({
                         token,
                         id: user.id,
@@ -36,8 +41,8 @@ exports.login = (req, res) => {
             return res.status(400).send({ errors: 'Invalid email or password' });
         })
         .catch(err => {
-            console.log("[LOG] Error in auth user: ", err.errors.message);
-            return res.status(500).send(err.errors.message);
+            console.log("[LOG] Error in auth user: ", err);
+            return res.status(500).send({ errors: 'Unexpected error. Try again later' });
         });
 };
 
@@ -76,12 +81,11 @@ exports.signup = (req, res) => {
                     });
             })
             .catch(err => {
-                console.log(err);
                 if (err.errors[0] && (err.errors[0].message === 'email_unique must be unique')) {
                     return res.status(400).send({ errors: 'Email is already taken' });
                 }
-                console.log("[LOG] Error creating in users: ", err);
-                return res.status(500).send(err.errors.message);
+                console.log("[LOG] Error in auth user: ", err);
+                return res.status(500).send({ errors: 'Unexpected error. Try again later' });
             });
     } else {
         return res.status(400).send({ errors: 'Invalid data passed'})

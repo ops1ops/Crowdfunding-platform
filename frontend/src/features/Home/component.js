@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
+import CommentsTab from "../CampaignPage/CommentsTab/component";
 
 class Home extends Component {
     render() {
         return (
             <div>
-                home page
+                1231231
             </div>
         );
     }

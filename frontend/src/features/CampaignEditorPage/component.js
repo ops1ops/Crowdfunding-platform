@@ -9,11 +9,11 @@ import * as moment from 'moment';
 
 class CampaignEditorPage extends React.Component {
     componentDidMount() {
-        const { match, getCampaign, getCategories, categories, setEditing, setCreating } = this.props;
+        const { match, getCampaign, getCategories, categories, setEditing, setCreating, user } = this.props;
         if (categories.length === 0) getCategories();
         if (match.params.id) {
             setEditing();
-            getCampaign(match.params.id);
+            getCampaign({ id: match.params.id, userId: user.id });
         } else {
             setCreating();
         }
@@ -114,6 +114,7 @@ class CampaignEditorPage extends React.Component {
 
 CampaignEditorPage.propTypes = {
     setEditing: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
     setCreating: PropTypes.func.isRequired,
     isCreating: PropTypes.bool.isRequired,
     getCategories: PropTypes.func.isRequired,

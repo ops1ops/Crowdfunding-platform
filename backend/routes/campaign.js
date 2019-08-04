@@ -3,6 +3,7 @@ const { verifyJWT } =  require("../middlewares/verifyJWT");
 const { verifyCreator } =  require("../middlewares/verifyCreator");
 const campaignController = require('../controllers/campaign');
 const rewardController = require('../controllers/reward');
+const commentsController = require('../controllers/comment');
 
 
 router.get('/campaigns', campaignController.getAllCampaigns);
@@ -14,6 +15,8 @@ router.get('/campaign/:id/user/:userId', campaignController.getCampaignById);
 router.post('/campaign/:id/support', verifyJWT, campaignController.supportCampaign);
 
 router.post('/campaign/:id/rate', verifyJWT, campaignController.rateCampaign);
+
+router.get('/campaign/:id/comments', commentsController.getAllComments);
 
 router.get('/campaign/:id/rewards', rewardController.getAllByCampaign);
 router.post('/campaign/:id/rewards', verifyJWT, verifyCreator, rewardController.createReward);

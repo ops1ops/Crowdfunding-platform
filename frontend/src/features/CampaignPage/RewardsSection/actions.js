@@ -12,8 +12,6 @@ import {
     SUPPORT_CAMPAIGN_SUCCESS,
     SUPPORT_CAMPAIGN_FAIL
 } from './constants';
-import {UPDATE_REWARD_REQUEST} from "../RewardEditorModal/constants";
-import {updateRewardFail, updateRewardSuccess} from "../RewardEditorModal/actions";
 
 export const getRewardsSuccess = payload => ({
     type: GET_REWARDS_SUCCESS,

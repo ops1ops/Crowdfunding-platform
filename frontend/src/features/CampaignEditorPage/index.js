@@ -15,6 +15,7 @@ export { createCampaignPageReducer } from './reducer';
 const mapStateToProps = state => ({
     categories: selectAllCategoriesTitles(state),
     campaign: state.campaignPageReducer.campaign,
+    user: state.user,
     isLoading: state.createCampaignPageReducer.isLoading,
     campaignResponse: state.createCampaignPageReducer.campaign,
     error: state.createCampaignPageReducer.error,

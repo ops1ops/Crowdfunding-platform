@@ -10,11 +10,15 @@ import { userLoginSuccess } from './features/LoginPage/actions';
 import setToken from "./utils/setToken";
 
 
-// refactor
 if (localStorage.userJWT) {
     const token = localStorage.userJWT;
     const payload = decode(token);
-    const user = { token, id: payload.id};
+    const user = {
+        token,
+        id: payload.id,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+    };
     setToken(token);
     store.dispatch(userLoginSuccess(user));
 }

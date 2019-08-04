@@ -10,15 +10,11 @@ router.get('/test', (req, res) => {
             include: [
                 {
                     model: User,
-                    as: 'ratedBy',
-                    attributes: ['id'],
-                    through: {
-                        where: { userId: 47 },
-                    }
+                    as: 'commentedBy',
                 },
             ]
         })
-        .then(users => res.send({users, getCampaigns: User.getCampaigns}))
+        .then(users => res.send({ users }))
         .catch(err => console.log(err))
 });
 

@@ -10,6 +10,7 @@ import { Link, Redirect } from 'react-router-dom';
 import DeleteCampaignModal from './DeleteCampaignModal/component';
 import RewardEditorModal from './RewardEditorModal';
 import RewardSection from './RewardsSection';
+import CommentsTab from './CommentsTab/component';
 
 const { TabPane } = Tabs;
 
@@ -25,7 +26,7 @@ class CampaignPage extends Component {
         this.props.getCampaign(data);
     }
 
-    handleRate = (value) => {
+    handleRate = value => {
         const { rateCampaign, campaign } = this.props;
         const data = {
             id: campaign.id,
@@ -122,9 +123,6 @@ class CampaignPage extends Component {
                                     ? `${campaign.user.firstName} ${campaign.user.lastName}`
                                     : null}
                             </p>
-                            <div className="d-flex justify-content-center">
-                                <Button className="w-100">Back this campaign</Button>
-                            </div>
                             {isUserCreator && (
                                 <div className="d-flex justify-content-between mt-5">
                                     <Link
@@ -176,7 +174,10 @@ class CampaignPage extends Component {
                             123
                         </TabPane>
                         <TabPane tab="Comments" key="3">
-                            321
+                            <CommentsTab
+                                id={match.params.id}
+                                user={user}
+                            />
                         </TabPane>
                     </Tabs>
                 </div>
