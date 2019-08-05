@@ -12,6 +12,18 @@ models.Confirms = require('./models/Confirms')(db, Sequelize);
 models.UserReward = require('./models/UserReward')(db, Sequelize);
 models.Rating = require('./models/Rating')(db, Sequelize);
 models.Comment = require('./models/Comment')(db, Sequelize);
+models.Like = require('./models/Like')(db, Sequelize);
+
+models.User.belongsToMany(models.Comment, {
+    as: 'likedComments',
+    through: { model: models.Like},
+    foreignKey: 'userId',
+});
+models.Comment.belongsToMany(models.User, {
+    as: 'likedBy',
+    through: { model: models.Like},
+    foreignKey: 'commentId',
+});
 
 models.User.belongsToMany(models.Campaign, {
     as: 'commentedCampaigns',
@@ -47,6 +59,9 @@ models.User.belongsToMany(models.Reward, {
     foreignKey: 'userId',
     otherKey: 'rewardId'
 });
+
+models.Like.belongsTo(models.Comment);
+models.Comment.hasMany(models.Like);
 
 models.Comment.belongsTo(models.User, {as: 'user'});
 models.User.hasMany(models.Comment, {as: 'comments'});

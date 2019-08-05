@@ -107,11 +107,14 @@ exports.updateCampaign = (req, res) => {
                             });
                         return res.send({ id: data.id });
                     }
-                    return res.status(500).send({ errors: 'Unexpected error. Try again later' });
+                    return res.status(400).send({ errors: 'Could not edit campaign. Try again later' });
                 })
                 .catch(err => {
+                    if (err.original && err.original.code === 'ER_WARN_DATA_OUT_OF_RANGE') {
+                        return res.status(400).send({ errors: 'Goal amount is too high value' });
+                    }
                     console.log("log: ", err);
-                    return res.status(400).send({ error: err.message });
+                    return res.status(500).send({ errors: 'Unexpected error. Try again later' });
                 })
         })
         .catch(err => {

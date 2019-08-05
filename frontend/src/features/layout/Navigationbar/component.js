@@ -1,18 +1,17 @@
 import React from 'react';
-import { Navbar, NavItem, Nav } from 'react-bootstrap';
-import GuestLinks from './GuestLinks/GuestLinks';
 import { Link } from 'react-router-dom';
-import { UserLinks } from './UserLinks/UserLinks';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import { Navbar, NavItem, Nav } from 'react-bootstrap';
+import GuestLinks from './GuestLinks/component';
+import { UserLinks } from './UserLinks/component';
 import { userLogout } from '../../LoginPage/actions';
-
 
 const NavigationBar = props => {
     const { isAuthorized, logout } = props;
 
     return (
-        <Navbar expand="sm" className="px-3" className="border-bottom">
+        <Navbar expand="sm" className="px-3 border-bottom">
             <Navbar.Brand>Crowdfunding</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -24,11 +23,7 @@ const NavigationBar = props => {
                     </NavItem>
                 </Nav>
                 {/*<Search />*/}
-                {isAuthorized ? (
-                    <UserLinks onLogout={logout} />
-                ) : (
-                    <GuestLinks />
-                )}
+                {isAuthorized ? <UserLinks onLogout={logout} /> : <GuestLinks />}
             </Navbar.Collapse>
         </Navbar>
     );

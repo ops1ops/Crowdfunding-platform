@@ -25,6 +25,7 @@ export default {
         create: data => axios.post(`/api/campaign/${data.id}/rewards`, { data }).then(res => res.data.reward),
     },
     comments: {
-        getAll: id => axios.get(`/api/campaign/${id}/comments`).then(res => res.data),
+        getAll: data => axios.get(`/api/campaign/${data.id}/user/${data.userId}/comments`).then(res => res.data),
+        likeComment: data => axios.post(`/api/campaign/${data.id}/comment/${data.commentId}`, { data }).then(res => res.data),
     }
 };

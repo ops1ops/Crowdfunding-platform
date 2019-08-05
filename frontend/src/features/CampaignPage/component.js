@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './styles.css';
 import { PropTypes } from 'prop-types';
-import ReactHtmlParser from 'react-html-parser'
+import ReactHtmlParser from 'react-html-parser';
 import { Carousel, Col, Container, Row } from 'react-bootstrap';
 import YouTube from 'react-youtube';
 import { Progress, Tabs, Rate } from 'antd';
@@ -13,7 +13,6 @@ import RewardEditorModal from './RewardEditorModal';
 import RewardSection from './RewardsSection';
 import CommentsTab from './CommentsTab/component';
 import { markDownHtmlConverter } from '../../utils/markDownConverter';
-import parse from 'html-react-parser';
 
 const { TabPane } = Tabs;
 const { markDownToHtml } = markDownHtmlConverter;
@@ -118,18 +117,16 @@ class CampaignPage extends Component {
                                 />
                                 <span className="h4">$ {campaign.currentAmount}</span>
                                 <p>pledged out of ${campaign.goalAmount} goal </p>
-                                <span className="h5">30</span>
-                                <p>people supported</p>
                                 <span className="h5">
                                     {getLeftDays(campaign.expirationDate)}
                                 </span>
                                 <p>days left</p>
-                                <p className="">
-                                    Creator:{' '}
+                                <span className="h5">
                                     {campaign.user
                                         ? `${campaign.user.firstName} ${campaign.user.lastName}`
                                         : null}
-                                </p>
+                                </span>
+                                <p className="">created by</p>
                                 {isUserCreator && (
                                     <div className="d-flex justify-content-between mt-5">
                                         <Link
@@ -162,9 +159,8 @@ class CampaignPage extends Component {
                                     <Col sm={8}>
                                         <h4 className="text-center mb-3">Description</h4>
                                         <div id="description" className="mt-3">
-                                            { ReactHtmlParser(html) }
+                                            {ReactHtmlParser(html)}
                                         </div>
-
                                     </Col>
                                     <Col sm={4}>
                                         <h4 className="text-center mb-3">
@@ -184,10 +180,7 @@ class CampaignPage extends Component {
                                 </Row>
                             </Container>
                         </TabPane>
-                        <TabPane tab="News" key="2">
-                            123
-                        </TabPane>
-                        <TabPane tab="Comments" key="3">
+                        <TabPane tab="Comments" key="2">
                             <CommentsTab id={match.params.id} user={user} />
                         </TabPane>
                     </Tabs>

@@ -53,8 +53,8 @@ class RewardCard extends Component {
             <Card className="my-3">
                 <Card.Body>
                     <Card.Title>{reward.name}</Card.Title>
-                    <Card.Text>{reward.description}</Card.Text>
-                    <Card.Text>${reward.amount}</Card.Text>
+                    <Card.Text className="text-muted">{reward.description}</Card.Text>
+                    <Card.Text className="h6">$ {reward.amount}</Card.Text>
                     {isAuthorized ? (
                         <Button
                             variant="primary"

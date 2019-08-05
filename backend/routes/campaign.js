@@ -16,7 +16,8 @@ router.post('/campaign/:id/support', verifyJWT, campaignController.supportCampai
 
 router.post('/campaign/:id/rate', verifyJWT, campaignController.rateCampaign);
 
-router.get('/campaign/:id/comments', commentsController.getAllComments);
+router.get('/campaign/:id/user/:userId/comments', commentsController.getAllComments);
+router.post('/campaign/:id/comment/:commentId', verifyJWT, commentsController.likeComment);
 
 router.get('/campaign/:id/rewards', rewardController.getAllByCampaign);
 router.post('/campaign/:id/rewards', verifyJWT, verifyCreator, rewardController.createReward);
