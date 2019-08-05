@@ -6,7 +6,7 @@ class Home extends Component {
     render() {
         return (
             <div className="border-bottom px-5 py-3">
-                <h4>Last 5 updated campaigns</h4>
+                <h4>Last updated campaigns</h4>
                 <CardDeck>
                     <Card>
                         <Card.Img variant="top" src="holder.js/100px160" />

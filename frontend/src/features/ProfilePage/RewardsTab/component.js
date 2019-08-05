@@ -32,7 +32,7 @@ function RewardsTab(props) {
             title: 'Received at',
             dataIndex: 'createdAt',
             sorter: (a, b) => new Date(b.date) - new Date(a.date),
-            sortDirections: ['descend', "ascend"],
+            sortDirections: ['descend', 'ascend'],
         },
     ];
 
@@ -51,14 +51,18 @@ function RewardsTab(props) {
 
     return (
         <Container className="px-5">
-            <Table
-                al
-                columns={columns}
-                dataSource={data}
-                className="border mt-2"
-                size="middle"
-                pagination={false}
-            />
+            {data.length ? (
+                <Table
+                    al
+                    columns={columns}
+                    dataSource={data}
+                    className="border mt-2"
+                    size="middle"
+                    pagination={false}
+                />
+            ) : (
+                <p className="text-center h6 mt-2">No rewards yet</p>
+            )}
         </Container>
     );
 }

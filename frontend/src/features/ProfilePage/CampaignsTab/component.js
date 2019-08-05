@@ -84,13 +84,19 @@ function CapaignsTab(props) {
 
     return (
         <Container>
-            <Table
-                align="center"
-                columns={columns}
-                dataSource={data}
-                className="border mt-2"
-                pagination={false}
-            />
+            {data.length ? (
+                <Table
+                    align="center"
+                    columns={columns}
+                    dataSource={data}
+                    className="border mt-2"
+                    pagination={false}
+                />
+            ) : (
+                <p className="text-center h6 mt-2">
+                    No campaigns yet. You can <Link to="/campaigns/create">create</Link> it
+                </p>
+            )}
         </Container>
     );
 }

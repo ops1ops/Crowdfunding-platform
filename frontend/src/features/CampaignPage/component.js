@@ -96,6 +96,7 @@ class CampaignPage extends Component {
                             <Col md={4}>
                                 <div className="d-flex justify-content-between">
                                     <Rate
+                                        className="Rate"
                                         allowClear={false}
                                         value={campaign.ratedByUser}
                                         onChange={this.handleRate}

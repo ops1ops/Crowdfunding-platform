@@ -20,9 +20,10 @@ const Router = () => {
             <PrivateRoute exact path="/campaign/edit/:id" component={CreateCampaignPage} />
             <PrivateRoute exact path="/profile" component={ProfilePage} />
             <Route exact path="/campaign/:id" component={CampaignPage} />
-            <Route exact path="/" component={Home} />
+            {/*<Route exact path="/" component={Home} />*/}
             <Route exact path="/error/:message" component={ErrorPage} />
             <Route path="/404" component={NotFound} />
+            <Redirect from="/" to="/profile" />
             <Redirect from="*" to="/404" />
         </Switch>
     );

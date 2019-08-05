@@ -10,6 +10,10 @@
     max-width: 100%;
 }
 
+.Rate {
+    color: #1890ff;
+}
+
 .carousel-image {
     height: 400px !important;
 }

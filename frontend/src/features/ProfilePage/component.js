@@ -72,13 +72,10 @@ class ProfilePage extends Component {
                         defaultActiveKey="1"
                         size="large"
                     >
-                        <TabPane tab="Privacy" key="1">
-                            123
+                        <TabPane tab="Your rewards" key="1">
+                            <RewardsTab rewards={userInfo.rewards ? userInfo.rewards : []} />
                         </TabPane>
-                        <TabPane tab="Your rewards" key="2">
-                            <RewardsTab rewards={userInfo.rewards} />
-                        </TabPane>
-                        <TabPane tab="Your campaigns" key="3">
+                        <TabPane tab="Your campaigns" key="2">
                             <CapaignsTab
                                 campaigns={userInfo.campaigns}
                                 deleteCampaign={deleteCampaign}

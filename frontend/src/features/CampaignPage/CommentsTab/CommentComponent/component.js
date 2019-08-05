@@ -137,11 +137,11 @@ class CommentComponent extends Component {
                 content={<p>{comment.text}</p>}
                 datetime={
                     <Tooltip
-                        title={moment(new Date(comment.createdAt)).format(
+                        title={moment(new Date(comment.createdAt.toString())).format(
                             'YYYY-MM-DD HH:mm:ss'
                         )}
                     >
-                        <span>{moment(new Date(comment.createdAt)).fromNow()}</span>
+                        <span>{moment(new Date(comment.createdAt.toString())).fromNow()}</span>
                     </Tooltip>
                 }
             />
